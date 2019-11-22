@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/liurenju/Desktop/research/mobisys-2020/armnn/src/backends/backendsCommon/test/TestSharedObject.cpp
+TestSharedObject.hpp
+/home/liurenju/Desktop/research/mobisys-2020/armnn/src/backends/backendsCommon/test/TestSharedObject.hpp
+
+/home/liurenju/Desktop/research/mobisys-2020/armnn/src/backends/backendsCommon/test/TestSharedObject.hpp
+cstdint
+-
+
