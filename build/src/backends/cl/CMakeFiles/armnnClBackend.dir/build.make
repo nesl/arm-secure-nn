@@ -57,9 +57,81 @@ include src/backends/cl/CMakeFiles/armnnClBackend.dir/progress.make
 # Include the compile flags for this target's objects.
 include src/backends/cl/CMakeFiles/armnnClBackend.dir/flags.make
 
+src/backends/cl/CMakeFiles/armnnClBackend.dir/ClBackend.cpp.o: src/backends/cl/CMakeFiles/armnnClBackend.dir/flags.make
+src/backends/cl/CMakeFiles/armnnClBackend.dir/ClBackend.cpp.o: ../src/backends/cl/ClBackend.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/liurenju/Desktop/research/mobisys-2020/armnn/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/backends/cl/CMakeFiles/armnnClBackend.dir/ClBackend.cpp.o"
+	cd /home/liurenju/Desktop/research/mobisys-2020/armnn/build/src/backends/cl && CCACHE_CPP2=yes  ccache /usr/bin/aarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/armnnClBackend.dir/ClBackend.cpp.o -c /home/liurenju/Desktop/research/mobisys-2020/armnn/src/backends/cl/ClBackend.cpp
+
+src/backends/cl/CMakeFiles/armnnClBackend.dir/ClBackend.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/armnnClBackend.dir/ClBackend.cpp.i"
+	cd /home/liurenju/Desktop/research/mobisys-2020/armnn/build/src/backends/cl && /usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liurenju/Desktop/research/mobisys-2020/armnn/src/backends/cl/ClBackend.cpp > CMakeFiles/armnnClBackend.dir/ClBackend.cpp.i
+
+src/backends/cl/CMakeFiles/armnnClBackend.dir/ClBackend.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/armnnClBackend.dir/ClBackend.cpp.s"
+	cd /home/liurenju/Desktop/research/mobisys-2020/armnn/build/src/backends/cl && /usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liurenju/Desktop/research/mobisys-2020/armnn/src/backends/cl/ClBackend.cpp -o CMakeFiles/armnnClBackend.dir/ClBackend.cpp.s
+
+src/backends/cl/CMakeFiles/armnnClBackend.dir/ClBackend.cpp.o.requires:
+
+.PHONY : src/backends/cl/CMakeFiles/armnnClBackend.dir/ClBackend.cpp.o.requires
+
+src/backends/cl/CMakeFiles/armnnClBackend.dir/ClBackend.cpp.o.provides: src/backends/cl/CMakeFiles/armnnClBackend.dir/ClBackend.cpp.o.requires
+	$(MAKE) -f src/backends/cl/CMakeFiles/armnnClBackend.dir/build.make src/backends/cl/CMakeFiles/armnnClBackend.dir/ClBackend.cpp.o.provides.build
+.PHONY : src/backends/cl/CMakeFiles/armnnClBackend.dir/ClBackend.cpp.o.provides
+
+src/backends/cl/CMakeFiles/armnnClBackend.dir/ClBackend.cpp.o.provides.build: src/backends/cl/CMakeFiles/armnnClBackend.dir/ClBackend.cpp.o
+
+
+src/backends/cl/CMakeFiles/armnnClBackend.dir/ClBackendContext.cpp.o: src/backends/cl/CMakeFiles/armnnClBackend.dir/flags.make
+src/backends/cl/CMakeFiles/armnnClBackend.dir/ClBackendContext.cpp.o: ../src/backends/cl/ClBackendContext.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/liurenju/Desktop/research/mobisys-2020/armnn/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object src/backends/cl/CMakeFiles/armnnClBackend.dir/ClBackendContext.cpp.o"
+	cd /home/liurenju/Desktop/research/mobisys-2020/armnn/build/src/backends/cl && CCACHE_CPP2=yes  ccache /usr/bin/aarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/armnnClBackend.dir/ClBackendContext.cpp.o -c /home/liurenju/Desktop/research/mobisys-2020/armnn/src/backends/cl/ClBackendContext.cpp
+
+src/backends/cl/CMakeFiles/armnnClBackend.dir/ClBackendContext.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/armnnClBackend.dir/ClBackendContext.cpp.i"
+	cd /home/liurenju/Desktop/research/mobisys-2020/armnn/build/src/backends/cl && /usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liurenju/Desktop/research/mobisys-2020/armnn/src/backends/cl/ClBackendContext.cpp > CMakeFiles/armnnClBackend.dir/ClBackendContext.cpp.i
+
+src/backends/cl/CMakeFiles/armnnClBackend.dir/ClBackendContext.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/armnnClBackend.dir/ClBackendContext.cpp.s"
+	cd /home/liurenju/Desktop/research/mobisys-2020/armnn/build/src/backends/cl && /usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liurenju/Desktop/research/mobisys-2020/armnn/src/backends/cl/ClBackendContext.cpp -o CMakeFiles/armnnClBackend.dir/ClBackendContext.cpp.s
+
+src/backends/cl/CMakeFiles/armnnClBackend.dir/ClBackendContext.cpp.o.requires:
+
+.PHONY : src/backends/cl/CMakeFiles/armnnClBackend.dir/ClBackendContext.cpp.o.requires
+
+src/backends/cl/CMakeFiles/armnnClBackend.dir/ClBackendContext.cpp.o.provides: src/backends/cl/CMakeFiles/armnnClBackend.dir/ClBackendContext.cpp.o.requires
+	$(MAKE) -f src/backends/cl/CMakeFiles/armnnClBackend.dir/build.make src/backends/cl/CMakeFiles/armnnClBackend.dir/ClBackendContext.cpp.o.provides.build
+.PHONY : src/backends/cl/CMakeFiles/armnnClBackend.dir/ClBackendContext.cpp.o.provides
+
+src/backends/cl/CMakeFiles/armnnClBackend.dir/ClBackendContext.cpp.o.provides.build: src/backends/cl/CMakeFiles/armnnClBackend.dir/ClBackendContext.cpp.o
+
+
+src/backends/cl/CMakeFiles/armnnClBackend.dir/ClContextControl.cpp.o: src/backends/cl/CMakeFiles/armnnClBackend.dir/flags.make
+src/backends/cl/CMakeFiles/armnnClBackend.dir/ClContextControl.cpp.o: ../src/backends/cl/ClContextControl.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/liurenju/Desktop/research/mobisys-2020/armnn/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object src/backends/cl/CMakeFiles/armnnClBackend.dir/ClContextControl.cpp.o"
+	cd /home/liurenju/Desktop/research/mobisys-2020/armnn/build/src/backends/cl && CCACHE_CPP2=yes  ccache /usr/bin/aarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/armnnClBackend.dir/ClContextControl.cpp.o -c /home/liurenju/Desktop/research/mobisys-2020/armnn/src/backends/cl/ClContextControl.cpp
+
+src/backends/cl/CMakeFiles/armnnClBackend.dir/ClContextControl.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/armnnClBackend.dir/ClContextControl.cpp.i"
+	cd /home/liurenju/Desktop/research/mobisys-2020/armnn/build/src/backends/cl && /usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liurenju/Desktop/research/mobisys-2020/armnn/src/backends/cl/ClContextControl.cpp > CMakeFiles/armnnClBackend.dir/ClContextControl.cpp.i
+
+src/backends/cl/CMakeFiles/armnnClBackend.dir/ClContextControl.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/armnnClBackend.dir/ClContextControl.cpp.s"
+	cd /home/liurenju/Desktop/research/mobisys-2020/armnn/build/src/backends/cl && /usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liurenju/Desktop/research/mobisys-2020/armnn/src/backends/cl/ClContextControl.cpp -o CMakeFiles/armnnClBackend.dir/ClContextControl.cpp.s
+
+src/backends/cl/CMakeFiles/armnnClBackend.dir/ClContextControl.cpp.o.requires:
+
+.PHONY : src/backends/cl/CMakeFiles/armnnClBackend.dir/ClContextControl.cpp.o.requires
+
+src/backends/cl/CMakeFiles/armnnClBackend.dir/ClContextControl.cpp.o.provides: src/backends/cl/CMakeFiles/armnnClBackend.dir/ClContextControl.cpp.o.requires
+	$(MAKE) -f src/backends/cl/CMakeFiles/armnnClBackend.dir/build.make src/backends/cl/CMakeFiles/armnnClBackend.dir/ClContextControl.cpp.o.provides.build
+.PHONY : src/backends/cl/CMakeFiles/armnnClBackend.dir/ClContextControl.cpp.o.provides
+
+src/backends/cl/CMakeFiles/armnnClBackend.dir/ClContextControl.cpp.o.provides.build: src/backends/cl/CMakeFiles/armnnClBackend.dir/ClContextControl.cpp.o
+
+
 src/backends/cl/CMakeFiles/armnnClBackend.dir/ClLayerSupport.cpp.o: src/backends/cl/CMakeFiles/armnnClBackend.dir/flags.make
 src/backends/cl/CMakeFiles/armnnClBackend.dir/ClLayerSupport.cpp.o: ../src/backends/cl/ClLayerSupport.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/liurenju/Desktop/research/mobisys-2020/armnn/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/backends/cl/CMakeFiles/armnnClBackend.dir/ClLayerSupport.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/liurenju/Desktop/research/mobisys-2020/armnn/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object src/backends/cl/CMakeFiles/armnnClBackend.dir/ClLayerSupport.cpp.o"
 	cd /home/liurenju/Desktop/research/mobisys-2020/armnn/build/src/backends/cl && CCACHE_CPP2=yes  ccache /usr/bin/aarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/armnnClBackend.dir/ClLayerSupport.cpp.o -c /home/liurenju/Desktop/research/mobisys-2020/armnn/src/backends/cl/ClLayerSupport.cpp
 
 src/backends/cl/CMakeFiles/armnnClBackend.dir/ClLayerSupport.cpp.i: cmake_force
@@ -81,7 +153,110 @@ src/backends/cl/CMakeFiles/armnnClBackend.dir/ClLayerSupport.cpp.o.provides: src
 src/backends/cl/CMakeFiles/armnnClBackend.dir/ClLayerSupport.cpp.o.provides.build: src/backends/cl/CMakeFiles/armnnClBackend.dir/ClLayerSupport.cpp.o
 
 
+src/backends/cl/CMakeFiles/armnnClBackend.dir/ClRegistryInitializer.cpp.o: src/backends/cl/CMakeFiles/armnnClBackend.dir/flags.make
+src/backends/cl/CMakeFiles/armnnClBackend.dir/ClRegistryInitializer.cpp.o: ../src/backends/cl/ClRegistryInitializer.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/liurenju/Desktop/research/mobisys-2020/armnn/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object src/backends/cl/CMakeFiles/armnnClBackend.dir/ClRegistryInitializer.cpp.o"
+	cd /home/liurenju/Desktop/research/mobisys-2020/armnn/build/src/backends/cl && CCACHE_CPP2=yes  ccache /usr/bin/aarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/armnnClBackend.dir/ClRegistryInitializer.cpp.o -c /home/liurenju/Desktop/research/mobisys-2020/armnn/src/backends/cl/ClRegistryInitializer.cpp
+
+src/backends/cl/CMakeFiles/armnnClBackend.dir/ClRegistryInitializer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/armnnClBackend.dir/ClRegistryInitializer.cpp.i"
+	cd /home/liurenju/Desktop/research/mobisys-2020/armnn/build/src/backends/cl && /usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liurenju/Desktop/research/mobisys-2020/armnn/src/backends/cl/ClRegistryInitializer.cpp > CMakeFiles/armnnClBackend.dir/ClRegistryInitializer.cpp.i
+
+src/backends/cl/CMakeFiles/armnnClBackend.dir/ClRegistryInitializer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/armnnClBackend.dir/ClRegistryInitializer.cpp.s"
+	cd /home/liurenju/Desktop/research/mobisys-2020/armnn/build/src/backends/cl && /usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liurenju/Desktop/research/mobisys-2020/armnn/src/backends/cl/ClRegistryInitializer.cpp -o CMakeFiles/armnnClBackend.dir/ClRegistryInitializer.cpp.s
+
+src/backends/cl/CMakeFiles/armnnClBackend.dir/ClRegistryInitializer.cpp.o.requires:
+
+.PHONY : src/backends/cl/CMakeFiles/armnnClBackend.dir/ClRegistryInitializer.cpp.o.requires
+
+src/backends/cl/CMakeFiles/armnnClBackend.dir/ClRegistryInitializer.cpp.o.provides: src/backends/cl/CMakeFiles/armnnClBackend.dir/ClRegistryInitializer.cpp.o.requires
+	$(MAKE) -f src/backends/cl/CMakeFiles/armnnClBackend.dir/build.make src/backends/cl/CMakeFiles/armnnClBackend.dir/ClRegistryInitializer.cpp.o.provides.build
+.PHONY : src/backends/cl/CMakeFiles/armnnClBackend.dir/ClRegistryInitializer.cpp.o.provides
+
+src/backends/cl/CMakeFiles/armnnClBackend.dir/ClRegistryInitializer.cpp.o.provides.build: src/backends/cl/CMakeFiles/armnnClBackend.dir/ClRegistryInitializer.cpp.o
+
+
+src/backends/cl/CMakeFiles/armnnClBackend.dir/ClTensorHandleFactory.cpp.o: src/backends/cl/CMakeFiles/armnnClBackend.dir/flags.make
+src/backends/cl/CMakeFiles/armnnClBackend.dir/ClTensorHandleFactory.cpp.o: ../src/backends/cl/ClTensorHandleFactory.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/liurenju/Desktop/research/mobisys-2020/armnn/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object src/backends/cl/CMakeFiles/armnnClBackend.dir/ClTensorHandleFactory.cpp.o"
+	cd /home/liurenju/Desktop/research/mobisys-2020/armnn/build/src/backends/cl && CCACHE_CPP2=yes  ccache /usr/bin/aarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/armnnClBackend.dir/ClTensorHandleFactory.cpp.o -c /home/liurenju/Desktop/research/mobisys-2020/armnn/src/backends/cl/ClTensorHandleFactory.cpp
+
+src/backends/cl/CMakeFiles/armnnClBackend.dir/ClTensorHandleFactory.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/armnnClBackend.dir/ClTensorHandleFactory.cpp.i"
+	cd /home/liurenju/Desktop/research/mobisys-2020/armnn/build/src/backends/cl && /usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liurenju/Desktop/research/mobisys-2020/armnn/src/backends/cl/ClTensorHandleFactory.cpp > CMakeFiles/armnnClBackend.dir/ClTensorHandleFactory.cpp.i
+
+src/backends/cl/CMakeFiles/armnnClBackend.dir/ClTensorHandleFactory.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/armnnClBackend.dir/ClTensorHandleFactory.cpp.s"
+	cd /home/liurenju/Desktop/research/mobisys-2020/armnn/build/src/backends/cl && /usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liurenju/Desktop/research/mobisys-2020/armnn/src/backends/cl/ClTensorHandleFactory.cpp -o CMakeFiles/armnnClBackend.dir/ClTensorHandleFactory.cpp.s
+
+src/backends/cl/CMakeFiles/armnnClBackend.dir/ClTensorHandleFactory.cpp.o.requires:
+
+.PHONY : src/backends/cl/CMakeFiles/armnnClBackend.dir/ClTensorHandleFactory.cpp.o.requires
+
+src/backends/cl/CMakeFiles/armnnClBackend.dir/ClTensorHandleFactory.cpp.o.provides: src/backends/cl/CMakeFiles/armnnClBackend.dir/ClTensorHandleFactory.cpp.o.requires
+	$(MAKE) -f src/backends/cl/CMakeFiles/armnnClBackend.dir/build.make src/backends/cl/CMakeFiles/armnnClBackend.dir/ClTensorHandleFactory.cpp.o.provides.build
+.PHONY : src/backends/cl/CMakeFiles/armnnClBackend.dir/ClTensorHandleFactory.cpp.o.provides
+
+src/backends/cl/CMakeFiles/armnnClBackend.dir/ClTensorHandleFactory.cpp.o.provides.build: src/backends/cl/CMakeFiles/armnnClBackend.dir/ClTensorHandleFactory.cpp.o
+
+
+src/backends/cl/CMakeFiles/armnnClBackend.dir/ClWorkloadFactory.cpp.o: src/backends/cl/CMakeFiles/armnnClBackend.dir/flags.make
+src/backends/cl/CMakeFiles/armnnClBackend.dir/ClWorkloadFactory.cpp.o: ../src/backends/cl/ClWorkloadFactory.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/liurenju/Desktop/research/mobisys-2020/armnn/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object src/backends/cl/CMakeFiles/armnnClBackend.dir/ClWorkloadFactory.cpp.o"
+	cd /home/liurenju/Desktop/research/mobisys-2020/armnn/build/src/backends/cl && CCACHE_CPP2=yes  ccache /usr/bin/aarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/armnnClBackend.dir/ClWorkloadFactory.cpp.o -c /home/liurenju/Desktop/research/mobisys-2020/armnn/src/backends/cl/ClWorkloadFactory.cpp
+
+src/backends/cl/CMakeFiles/armnnClBackend.dir/ClWorkloadFactory.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/armnnClBackend.dir/ClWorkloadFactory.cpp.i"
+	cd /home/liurenju/Desktop/research/mobisys-2020/armnn/build/src/backends/cl && /usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liurenju/Desktop/research/mobisys-2020/armnn/src/backends/cl/ClWorkloadFactory.cpp > CMakeFiles/armnnClBackend.dir/ClWorkloadFactory.cpp.i
+
+src/backends/cl/CMakeFiles/armnnClBackend.dir/ClWorkloadFactory.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/armnnClBackend.dir/ClWorkloadFactory.cpp.s"
+	cd /home/liurenju/Desktop/research/mobisys-2020/armnn/build/src/backends/cl && /usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liurenju/Desktop/research/mobisys-2020/armnn/src/backends/cl/ClWorkloadFactory.cpp -o CMakeFiles/armnnClBackend.dir/ClWorkloadFactory.cpp.s
+
+src/backends/cl/CMakeFiles/armnnClBackend.dir/ClWorkloadFactory.cpp.o.requires:
+
+.PHONY : src/backends/cl/CMakeFiles/armnnClBackend.dir/ClWorkloadFactory.cpp.o.requires
+
+src/backends/cl/CMakeFiles/armnnClBackend.dir/ClWorkloadFactory.cpp.o.provides: src/backends/cl/CMakeFiles/armnnClBackend.dir/ClWorkloadFactory.cpp.o.requires
+	$(MAKE) -f src/backends/cl/CMakeFiles/armnnClBackend.dir/build.make src/backends/cl/CMakeFiles/armnnClBackend.dir/ClWorkloadFactory.cpp.o.provides.build
+.PHONY : src/backends/cl/CMakeFiles/armnnClBackend.dir/ClWorkloadFactory.cpp.o.provides
+
+src/backends/cl/CMakeFiles/armnnClBackend.dir/ClWorkloadFactory.cpp.o.provides.build: src/backends/cl/CMakeFiles/armnnClBackend.dir/ClWorkloadFactory.cpp.o
+
+
+src/backends/cl/CMakeFiles/armnnClBackend.dir/OpenClTimer.cpp.o: src/backends/cl/CMakeFiles/armnnClBackend.dir/flags.make
+src/backends/cl/CMakeFiles/armnnClBackend.dir/OpenClTimer.cpp.o: ../src/backends/cl/OpenClTimer.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/liurenju/Desktop/research/mobisys-2020/armnn/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object src/backends/cl/CMakeFiles/armnnClBackend.dir/OpenClTimer.cpp.o"
+	cd /home/liurenju/Desktop/research/mobisys-2020/armnn/build/src/backends/cl && CCACHE_CPP2=yes  ccache /usr/bin/aarch64-linux-gnu-g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/armnnClBackend.dir/OpenClTimer.cpp.o -c /home/liurenju/Desktop/research/mobisys-2020/armnn/src/backends/cl/OpenClTimer.cpp
+
+src/backends/cl/CMakeFiles/armnnClBackend.dir/OpenClTimer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/armnnClBackend.dir/OpenClTimer.cpp.i"
+	cd /home/liurenju/Desktop/research/mobisys-2020/armnn/build/src/backends/cl && /usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/liurenju/Desktop/research/mobisys-2020/armnn/src/backends/cl/OpenClTimer.cpp > CMakeFiles/armnnClBackend.dir/OpenClTimer.cpp.i
+
+src/backends/cl/CMakeFiles/armnnClBackend.dir/OpenClTimer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/armnnClBackend.dir/OpenClTimer.cpp.s"
+	cd /home/liurenju/Desktop/research/mobisys-2020/armnn/build/src/backends/cl && /usr/bin/aarch64-linux-gnu-g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/liurenju/Desktop/research/mobisys-2020/armnn/src/backends/cl/OpenClTimer.cpp -o CMakeFiles/armnnClBackend.dir/OpenClTimer.cpp.s
+
+src/backends/cl/CMakeFiles/armnnClBackend.dir/OpenClTimer.cpp.o.requires:
+
+.PHONY : src/backends/cl/CMakeFiles/armnnClBackend.dir/OpenClTimer.cpp.o.requires
+
+src/backends/cl/CMakeFiles/armnnClBackend.dir/OpenClTimer.cpp.o.provides: src/backends/cl/CMakeFiles/armnnClBackend.dir/OpenClTimer.cpp.o.requires
+	$(MAKE) -f src/backends/cl/CMakeFiles/armnnClBackend.dir/build.make src/backends/cl/CMakeFiles/armnnClBackend.dir/OpenClTimer.cpp.o.provides.build
+.PHONY : src/backends/cl/CMakeFiles/armnnClBackend.dir/OpenClTimer.cpp.o.provides
+
+src/backends/cl/CMakeFiles/armnnClBackend.dir/OpenClTimer.cpp.o.provides.build: src/backends/cl/CMakeFiles/armnnClBackend.dir/OpenClTimer.cpp.o
+
+
+armnnClBackend: src/backends/cl/CMakeFiles/armnnClBackend.dir/ClBackend.cpp.o
+armnnClBackend: src/backends/cl/CMakeFiles/armnnClBackend.dir/ClBackendContext.cpp.o
+armnnClBackend: src/backends/cl/CMakeFiles/armnnClBackend.dir/ClContextControl.cpp.o
 armnnClBackend: src/backends/cl/CMakeFiles/armnnClBackend.dir/ClLayerSupport.cpp.o
+armnnClBackend: src/backends/cl/CMakeFiles/armnnClBackend.dir/ClRegistryInitializer.cpp.o
+armnnClBackend: src/backends/cl/CMakeFiles/armnnClBackend.dir/ClTensorHandleFactory.cpp.o
+armnnClBackend: src/backends/cl/CMakeFiles/armnnClBackend.dir/ClWorkloadFactory.cpp.o
+armnnClBackend: src/backends/cl/CMakeFiles/armnnClBackend.dir/OpenClTimer.cpp.o
 armnnClBackend: src/backends/cl/CMakeFiles/armnnClBackend.dir/build.make
 
 .PHONY : armnnClBackend
@@ -91,7 +266,14 @@ src/backends/cl/CMakeFiles/armnnClBackend.dir/build: armnnClBackend
 
 .PHONY : src/backends/cl/CMakeFiles/armnnClBackend.dir/build
 
+src/backends/cl/CMakeFiles/armnnClBackend.dir/requires: src/backends/cl/CMakeFiles/armnnClBackend.dir/ClBackend.cpp.o.requires
+src/backends/cl/CMakeFiles/armnnClBackend.dir/requires: src/backends/cl/CMakeFiles/armnnClBackend.dir/ClBackendContext.cpp.o.requires
+src/backends/cl/CMakeFiles/armnnClBackend.dir/requires: src/backends/cl/CMakeFiles/armnnClBackend.dir/ClContextControl.cpp.o.requires
 src/backends/cl/CMakeFiles/armnnClBackend.dir/requires: src/backends/cl/CMakeFiles/armnnClBackend.dir/ClLayerSupport.cpp.o.requires
+src/backends/cl/CMakeFiles/armnnClBackend.dir/requires: src/backends/cl/CMakeFiles/armnnClBackend.dir/ClRegistryInitializer.cpp.o.requires
+src/backends/cl/CMakeFiles/armnnClBackend.dir/requires: src/backends/cl/CMakeFiles/armnnClBackend.dir/ClTensorHandleFactory.cpp.o.requires
+src/backends/cl/CMakeFiles/armnnClBackend.dir/requires: src/backends/cl/CMakeFiles/armnnClBackend.dir/ClWorkloadFactory.cpp.o.requires
+src/backends/cl/CMakeFiles/armnnClBackend.dir/requires: src/backends/cl/CMakeFiles/armnnClBackend.dir/OpenClTimer.cpp.o.requires
 
 .PHONY : src/backends/cl/CMakeFiles/armnnClBackend.dir/requires
 

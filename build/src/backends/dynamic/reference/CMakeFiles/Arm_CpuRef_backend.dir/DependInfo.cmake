@@ -79,6 +79,7 @@ set(CMAKE_CXX_COMPILER_ID "GNU")
 
 # Preprocessor definitions for this target.
 set(CMAKE_TARGET_DEFINITIONS_CXX
+  "ARMCOMPUTECL_ENABLED"
   "ARMCOMPUTENEON_ENABLED"
   "ARMNNREF_ENABLED"
   "ARMNN_CAFFE_PARSER"
@@ -96,6 +97,7 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "../include"
   "/home/liurenju/armnn-devenv/ComputeLibrary"
   "/home/liurenju/armnn-devenv/ComputeLibrary/include"
+  "/home/liurenju/Desktop/research/optee-hikey960-3.5.0/optee_client/public"
   "../third-party"
   "../src/armnn"
   "../src/armnnUtils"

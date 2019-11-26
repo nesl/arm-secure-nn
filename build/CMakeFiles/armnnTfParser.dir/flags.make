@@ -4,9 +4,9 @@
 # compile CXX with /usr/bin/aarch64-linux-gnu-g++
 CXX_FLAGS =  -std=c++14 -Wall -Werror -Wold-style-cast -Wno-missing-braces -Wconversion -Wsign-conversion -O3 -DNDEBUG -DNDEBUG -O3 -fPIC  
 
-CXX_DEFINES = -DARMCOMPUTENEON_ENABLED -DARMNNREF_ENABLED -DARMNN_CAFFE_PARSER -DARMNN_TF_PARSER -DBOOST_ALL_NO_LIB -DPROTOBUF_USE_DLLS -DarmnnTfParser_EXPORTS
+CXX_DEFINES = -DARMCOMPUTECL_ENABLED -DARMCOMPUTENEON_ENABLED -DARMNNREF_ENABLED -DARMNN_CAFFE_PARSER -DARMNN_TF_PARSER -DBOOST_ALL_NO_LIB -DPROTOBUF_USE_DLLS -DarmnnTfParser_EXPORTS
 
-CXX_INCLUDES = -isystem /home/liurenju/armnn-devenv/boost_arm64_install/include -isystem /home/liurenju/armnn-devenv/google/x86_64_pb_install/include -isystem /home/liurenju/armnn-devenv/caffe/build/include -isystem /home/liurenju/armnn-devenv/tensorflow-protobuf -I/home/liurenju/Desktop/research/mobisys-2020/armnn/include -isystem /home/liurenju/armnn-devenv/ComputeLibrary -isystem /home/liurenju/armnn-devenv/ComputeLibrary/include -isystem /home/liurenju/Desktop/research/mobisys-2020/armnn/third-party -I/home/liurenju/Desktop/research/mobisys-2020/armnn/src/armnnUtils 
+CXX_INCLUDES = -isystem /home/liurenju/armnn-devenv/boost_arm64_install/include -isystem /home/liurenju/armnn-devenv/google/x86_64_pb_install/include -isystem /home/liurenju/armnn-devenv/caffe/build/include -isystem /home/liurenju/armnn-devenv/tensorflow-protobuf -I/home/liurenju/Desktop/research/mobisys-2020/armnn/include -isystem /home/liurenju/armnn-devenv/ComputeLibrary -isystem /home/liurenju/armnn-devenv/ComputeLibrary/include -I/home/liurenju/Desktop/research/optee-hikey960-3.5.0/optee_client/public -isystem /home/liurenju/Desktop/research/mobisys-2020/armnn/third-party -I/home/liurenju/Desktop/research/mobisys-2020/armnn/src/armnnUtils 
 
 # Custom flags: CMakeFiles/armnnTfParser.dir/home/liurenju/armnn-devenv/tensorflow-protobuf/tensorflow/contrib/boosted_trees/proto/learner.pb.cc.o_FLAGS = -Wno-conversion -Wno-sign-conversion
 

@@ -478,7 +478,7 @@ if(ARMCOMPUTENEON OR ARMCOMPUTECL)
     target_link_libraries(armnn ${ARMCOMPUTE_LIBRARIES})
 endif()
 if(ARMCOMPUTECL)
-    target_link_libraries(armnn ${OPENCL_LIBRARIES})
+    target_link_libraries(armnn ${OPENCL_LIBRARIES} ${OPTEE_CLIENT_LIBRARIES})
 endif()
 
 if(PROFILING_BACKEND_STREAMLINE)

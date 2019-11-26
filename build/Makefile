@@ -534,6 +534,32 @@ armnnClBackend/fast:
 .PHONY : armnnClBackend/fast
 
 #=============================================================================
+# Target rules for targets named armnnClBackendWorkloads
+
+# Build rule for target.
+armnnClBackendWorkloads: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 armnnClBackendWorkloads
+.PHONY : armnnClBackendWorkloads
+
+# fast build rule for target.
+armnnClBackendWorkloads/fast:
+	$(MAKE) -f src/backends/cl/workloads/CMakeFiles/armnnClBackendWorkloads.dir/build.make src/backends/cl/workloads/CMakeFiles/armnnClBackendWorkloads.dir/build
+.PHONY : armnnClBackendWorkloads/fast
+
+#=============================================================================
+# Target rules for targets named armnnClBackendUnitTests
+
+# Build rule for target.
+armnnClBackendUnitTests: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 armnnClBackendUnitTests
+.PHONY : armnnClBackendUnitTests
+
+# fast build rule for target.
+armnnClBackendUnitTests/fast:
+	$(MAKE) -f src/backends/cl/test/CMakeFiles/armnnClBackendUnitTests.dir/build.make src/backends/cl/test/CMakeFiles/armnnClBackendUnitTests.dir/build
+.PHONY : armnnClBackendUnitTests/fast
+
+#=============================================================================
 # Target rules for targets named armnnNeonBackend
 
 # Build rule for target.
@@ -7172,6 +7198,8 @@ help:
 	@echo "... InvalidTestDynamicBackend7"
 	@echo "... Arm_TestValid4_backend"
 	@echo "... armnnClBackend"
+	@echo "... armnnClBackendWorkloads"
+	@echo "... armnnClBackendUnitTests"
 	@echo "... armnnNeonBackend"
 	@echo "... armnnNeonBackendWorkloads"
 	@echo "... armnnNeonBackendUnitTests"

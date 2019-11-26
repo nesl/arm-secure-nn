@@ -4,8 +4,9 @@ CC=aarch64-linux-gnu-gcc \
 cmake .. \
 -DARMCOMPUTE_ROOT=$HOME/armnn-devenv/ComputeLibrary \
 -DARMCOMPUTE_BUILD_DIR=$HOME/armnn-devenv/ComputeLibrary/build/ \
+-DCMAKE_C_COMPILER_FLAGS=-fPIC \
 -DBOOST_ROOT=$HOME/armnn-devenv/boost_arm64_install/ \
--DARMCOMPUTENEON=1 -DARMCOMPUTECL=0 -DARMNNREF=1 \
+-DARMCOMPUTENEON=1 -DARMCOMPUTECL=1 -DARMNNREF=1 \
 -DCAFFE_GENERATED_SOURCES=$HOME/armnn-devenv/caffe/build/include \
 -DBUILD_CAFFE_PARSER=1 \
 -DTF_GENERATED_SOURCES=$HOME/armnn-devenv/tensorflow-protobuf \

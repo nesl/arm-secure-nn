@@ -171,6 +171,87 @@ armnnClBackend/fast:
 	cd /home/liurenju/Desktop/research/mobisys-2020/armnn/build && $(MAKE) -f src/backends/cl/CMakeFiles/armnnClBackend.dir/build.make src/backends/cl/CMakeFiles/armnnClBackend.dir/build
 .PHONY : armnnClBackend/fast
 
+ClBackend.o: ClBackend.cpp.o
+
+.PHONY : ClBackend.o
+
+# target to build an object file
+ClBackend.cpp.o:
+	cd /home/liurenju/Desktop/research/mobisys-2020/armnn/build && $(MAKE) -f src/backends/cl/CMakeFiles/armnnClBackend.dir/build.make src/backends/cl/CMakeFiles/armnnClBackend.dir/ClBackend.cpp.o
+.PHONY : ClBackend.cpp.o
+
+ClBackend.i: ClBackend.cpp.i
+
+.PHONY : ClBackend.i
+
+# target to preprocess a source file
+ClBackend.cpp.i:
+	cd /home/liurenju/Desktop/research/mobisys-2020/armnn/build && $(MAKE) -f src/backends/cl/CMakeFiles/armnnClBackend.dir/build.make src/backends/cl/CMakeFiles/armnnClBackend.dir/ClBackend.cpp.i
+.PHONY : ClBackend.cpp.i
+
+ClBackend.s: ClBackend.cpp.s
+
+.PHONY : ClBackend.s
+
+# target to generate assembly for a file
+ClBackend.cpp.s:
+	cd /home/liurenju/Desktop/research/mobisys-2020/armnn/build && $(MAKE) -f src/backends/cl/CMakeFiles/armnnClBackend.dir/build.make src/backends/cl/CMakeFiles/armnnClBackend.dir/ClBackend.cpp.s
+.PHONY : ClBackend.cpp.s
+
+ClBackendContext.o: ClBackendContext.cpp.o
+
+.PHONY : ClBackendContext.o
+
+# target to build an object file
+ClBackendContext.cpp.o:
+	cd /home/liurenju/Desktop/research/mobisys-2020/armnn/build && $(MAKE) -f src/backends/cl/CMakeFiles/armnnClBackend.dir/build.make src/backends/cl/CMakeFiles/armnnClBackend.dir/ClBackendContext.cpp.o
+.PHONY : ClBackendContext.cpp.o
+
+ClBackendContext.i: ClBackendContext.cpp.i
+
+.PHONY : ClBackendContext.i
+
+# target to preprocess a source file
+ClBackendContext.cpp.i:
+	cd /home/liurenju/Desktop/research/mobisys-2020/armnn/build && $(MAKE) -f src/backends/cl/CMakeFiles/armnnClBackend.dir/build.make src/backends/cl/CMakeFiles/armnnClBackend.dir/ClBackendContext.cpp.i
+.PHONY : ClBackendContext.cpp.i
+
+ClBackendContext.s: ClBackendContext.cpp.s
+
+.PHONY : ClBackendContext.s
+
+# target to generate assembly for a file
+ClBackendContext.cpp.s:
+	cd /home/liurenju/Desktop/research/mobisys-2020/armnn/build && $(MAKE) -f src/backends/cl/CMakeFiles/armnnClBackend.dir/build.make src/backends/cl/CMakeFiles/armnnClBackend.dir/ClBackendContext.cpp.s
+.PHONY : ClBackendContext.cpp.s
+
+ClContextControl.o: ClContextControl.cpp.o
+
+.PHONY : ClContextControl.o
+
+# target to build an object file
+ClContextControl.cpp.o:
+	cd /home/liurenju/Desktop/research/mobisys-2020/armnn/build && $(MAKE) -f src/backends/cl/CMakeFiles/armnnClBackend.dir/build.make src/backends/cl/CMakeFiles/armnnClBackend.dir/ClContextControl.cpp.o
+.PHONY : ClContextControl.cpp.o
+
+ClContextControl.i: ClContextControl.cpp.i
+
+.PHONY : ClContextControl.i
+
+# target to preprocess a source file
+ClContextControl.cpp.i:
+	cd /home/liurenju/Desktop/research/mobisys-2020/armnn/build && $(MAKE) -f src/backends/cl/CMakeFiles/armnnClBackend.dir/build.make src/backends/cl/CMakeFiles/armnnClBackend.dir/ClContextControl.cpp.i
+.PHONY : ClContextControl.cpp.i
+
+ClContextControl.s: ClContextControl.cpp.s
+
+.PHONY : ClContextControl.s
+
+# target to generate assembly for a file
+ClContextControl.cpp.s:
+	cd /home/liurenju/Desktop/research/mobisys-2020/armnn/build && $(MAKE) -f src/backends/cl/CMakeFiles/armnnClBackend.dir/build.make src/backends/cl/CMakeFiles/armnnClBackend.dir/ClContextControl.cpp.s
+.PHONY : ClContextControl.cpp.s
+
 ClLayerSupport.o: ClLayerSupport.cpp.o
 
 .PHONY : ClLayerSupport.o
@@ -198,6 +279,114 @@ ClLayerSupport.cpp.s:
 	cd /home/liurenju/Desktop/research/mobisys-2020/armnn/build && $(MAKE) -f src/backends/cl/CMakeFiles/armnnClBackend.dir/build.make src/backends/cl/CMakeFiles/armnnClBackend.dir/ClLayerSupport.cpp.s
 .PHONY : ClLayerSupport.cpp.s
 
+ClRegistryInitializer.o: ClRegistryInitializer.cpp.o
+
+.PHONY : ClRegistryInitializer.o
+
+# target to build an object file
+ClRegistryInitializer.cpp.o:
+	cd /home/liurenju/Desktop/research/mobisys-2020/armnn/build && $(MAKE) -f src/backends/cl/CMakeFiles/armnnClBackend.dir/build.make src/backends/cl/CMakeFiles/armnnClBackend.dir/ClRegistryInitializer.cpp.o
+.PHONY : ClRegistryInitializer.cpp.o
+
+ClRegistryInitializer.i: ClRegistryInitializer.cpp.i
+
+.PHONY : ClRegistryInitializer.i
+
+# target to preprocess a source file
+ClRegistryInitializer.cpp.i:
+	cd /home/liurenju/Desktop/research/mobisys-2020/armnn/build && $(MAKE) -f src/backends/cl/CMakeFiles/armnnClBackend.dir/build.make src/backends/cl/CMakeFiles/armnnClBackend.dir/ClRegistryInitializer.cpp.i
+.PHONY : ClRegistryInitializer.cpp.i
+
+ClRegistryInitializer.s: ClRegistryInitializer.cpp.s
+
+.PHONY : ClRegistryInitializer.s
+
+# target to generate assembly for a file
+ClRegistryInitializer.cpp.s:
+	cd /home/liurenju/Desktop/research/mobisys-2020/armnn/build && $(MAKE) -f src/backends/cl/CMakeFiles/armnnClBackend.dir/build.make src/backends/cl/CMakeFiles/armnnClBackend.dir/ClRegistryInitializer.cpp.s
+.PHONY : ClRegistryInitializer.cpp.s
+
+ClTensorHandleFactory.o: ClTensorHandleFactory.cpp.o
+
+.PHONY : ClTensorHandleFactory.o
+
+# target to build an object file
+ClTensorHandleFactory.cpp.o:
+	cd /home/liurenju/Desktop/research/mobisys-2020/armnn/build && $(MAKE) -f src/backends/cl/CMakeFiles/armnnClBackend.dir/build.make src/backends/cl/CMakeFiles/armnnClBackend.dir/ClTensorHandleFactory.cpp.o
+.PHONY : ClTensorHandleFactory.cpp.o
+
+ClTensorHandleFactory.i: ClTensorHandleFactory.cpp.i
+
+.PHONY : ClTensorHandleFactory.i
+
+# target to preprocess a source file
+ClTensorHandleFactory.cpp.i:
+	cd /home/liurenju/Desktop/research/mobisys-2020/armnn/build && $(MAKE) -f src/backends/cl/CMakeFiles/armnnClBackend.dir/build.make src/backends/cl/CMakeFiles/armnnClBackend.dir/ClTensorHandleFactory.cpp.i
+.PHONY : ClTensorHandleFactory.cpp.i
+
+ClTensorHandleFactory.s: ClTensorHandleFactory.cpp.s
+
+.PHONY : ClTensorHandleFactory.s
+
+# target to generate assembly for a file
+ClTensorHandleFactory.cpp.s:
+	cd /home/liurenju/Desktop/research/mobisys-2020/armnn/build && $(MAKE) -f src/backends/cl/CMakeFiles/armnnClBackend.dir/build.make src/backends/cl/CMakeFiles/armnnClBackend.dir/ClTensorHandleFactory.cpp.s
+.PHONY : ClTensorHandleFactory.cpp.s
+
+ClWorkloadFactory.o: ClWorkloadFactory.cpp.o
+
+.PHONY : ClWorkloadFactory.o
+
+# target to build an object file
+ClWorkloadFactory.cpp.o:
+	cd /home/liurenju/Desktop/research/mobisys-2020/armnn/build && $(MAKE) -f src/backends/cl/CMakeFiles/armnnClBackend.dir/build.make src/backends/cl/CMakeFiles/armnnClBackend.dir/ClWorkloadFactory.cpp.o
+.PHONY : ClWorkloadFactory.cpp.o
+
+ClWorkloadFactory.i: ClWorkloadFactory.cpp.i
+
+.PHONY : ClWorkloadFactory.i
+
+# target to preprocess a source file
+ClWorkloadFactory.cpp.i:
+	cd /home/liurenju/Desktop/research/mobisys-2020/armnn/build && $(MAKE) -f src/backends/cl/CMakeFiles/armnnClBackend.dir/build.make src/backends/cl/CMakeFiles/armnnClBackend.dir/ClWorkloadFactory.cpp.i
+.PHONY : ClWorkloadFactory.cpp.i
+
+ClWorkloadFactory.s: ClWorkloadFactory.cpp.s
+
+.PHONY : ClWorkloadFactory.s
+
+# target to generate assembly for a file
+ClWorkloadFactory.cpp.s:
+	cd /home/liurenju/Desktop/research/mobisys-2020/armnn/build && $(MAKE) -f src/backends/cl/CMakeFiles/armnnClBackend.dir/build.make src/backends/cl/CMakeFiles/armnnClBackend.dir/ClWorkloadFactory.cpp.s
+.PHONY : ClWorkloadFactory.cpp.s
+
+OpenClTimer.o: OpenClTimer.cpp.o
+
+.PHONY : OpenClTimer.o
+
+# target to build an object file
+OpenClTimer.cpp.o:
+	cd /home/liurenju/Desktop/research/mobisys-2020/armnn/build && $(MAKE) -f src/backends/cl/CMakeFiles/armnnClBackend.dir/build.make src/backends/cl/CMakeFiles/armnnClBackend.dir/OpenClTimer.cpp.o
+.PHONY : OpenClTimer.cpp.o
+
+OpenClTimer.i: OpenClTimer.cpp.i
+
+.PHONY : OpenClTimer.i
+
+# target to preprocess a source file
+OpenClTimer.cpp.i:
+	cd /home/liurenju/Desktop/research/mobisys-2020/armnn/build && $(MAKE) -f src/backends/cl/CMakeFiles/armnnClBackend.dir/build.make src/backends/cl/CMakeFiles/armnnClBackend.dir/OpenClTimer.cpp.i
+.PHONY : OpenClTimer.cpp.i
+
+OpenClTimer.s: OpenClTimer.cpp.s
+
+.PHONY : OpenClTimer.s
+
+# target to generate assembly for a file
+OpenClTimer.cpp.s:
+	cd /home/liurenju/Desktop/research/mobisys-2020/armnn/build && $(MAKE) -f src/backends/cl/CMakeFiles/armnnClBackend.dir/build.make src/backends/cl/CMakeFiles/armnnClBackend.dir/OpenClTimer.cpp.s
+.PHONY : OpenClTimer.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -211,9 +400,30 @@ help:
 	@echo "... list_install_components"
 	@echo "... install/local"
 	@echo "... install"
+	@echo "... ClBackend.o"
+	@echo "... ClBackend.i"
+	@echo "... ClBackend.s"
+	@echo "... ClBackendContext.o"
+	@echo "... ClBackendContext.i"
+	@echo "... ClBackendContext.s"
+	@echo "... ClContextControl.o"
+	@echo "... ClContextControl.i"
+	@echo "... ClContextControl.s"
 	@echo "... ClLayerSupport.o"
 	@echo "... ClLayerSupport.i"
 	@echo "... ClLayerSupport.s"
+	@echo "... ClRegistryInitializer.o"
+	@echo "... ClRegistryInitializer.i"
+	@echo "... ClRegistryInitializer.s"
+	@echo "... ClTensorHandleFactory.o"
+	@echo "... ClTensorHandleFactory.i"
+	@echo "... ClTensorHandleFactory.s"
+	@echo "... ClWorkloadFactory.o"
+	@echo "... ClWorkloadFactory.i"
+	@echo "... ClWorkloadFactory.s"
+	@echo "... OpenClTimer.o"
+	@echo "... OpenClTimer.i"
+	@echo "... OpenClTimer.s"
 .PHONY : help
 
 

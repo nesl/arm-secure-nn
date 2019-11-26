@@ -37,3 +37,10 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
   set(CMAKE_CROSSCOMPILING "FALSE")
 endif()
 
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for each subdirectory.
+  include("/home/liurenju/Desktop/research/mobisys-2020/armnn/build/src/backends/cl/workloads/cmake_install.cmake")
+  include("/home/liurenju/Desktop/research/mobisys-2020/armnn/build/src/backends/cl/test/cmake_install.cmake")
+
+endif()
+

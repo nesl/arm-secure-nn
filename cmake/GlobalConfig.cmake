@@ -270,9 +270,12 @@ if(ARMCOMPUTECL)
 
     # Link against libOpenCL in opencl-1.2-stubs, but don't search there at runtime
     link_libraries(-L${ARMCOMPUTE_BUILD_DIR}/opencl-1.2-stubs)
+    link_libraries(-L/home/liurenju/Desktop/research/optee-hikey960-3.5.0/out-br/build/optee_client-1.0/libteec)
     set(OPENCL_LIBRARIES OpenCL)
+    set(OPTEE_CLIENT_LIBRARIES teec)
 
     include_directories(${OPENCL_INCLUDE})
+    include_directories(/home/liurenju/Desktop/research/optee-hikey960-3.5.0/optee_client/public)
 
     # Add preprocessor definition for ARM Compute OpenCL
     add_definitions(-DARMCOMPUTECL_ENABLED)
