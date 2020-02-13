@@ -46,6 +46,7 @@ ClActivationWorkload::ClActivationWorkload(const ActivationQueueDescriptor& desc
 void ClActivationWorkload::Execute() const
 {
     ARMNN_SCOPED_PROFILING_EVENT_CL("ClActivationWorkload_Execute");
+    // printf("\n\n\n\n\n------RENJU!!!-----HELLO!!!!\n\n\n\n\n");
     RunClFunction(m_ActivationLayer, CHECK_LOCATION());
 }
 

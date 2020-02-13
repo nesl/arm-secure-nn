@@ -120,6 +120,7 @@ LoadedNetwork::LoadedNetwork(std::unique_ptr<OptimizedNetwork> net)
         layer->CreateTensorHandles(m_TensorHandleFactoryRegistry, workloadFacory);
     }
 
+    printf("\n\n\n\n\n\n\n\n\n\n");
     //Then create workloads.
     for (auto&& layer : order)
     {
@@ -146,6 +147,7 @@ LoadedNetwork::LoadedNetwork(std::unique_ptr<OptimizedNetwork> net)
                     ));
                 }
 
+                printf("Fuck my life-------Renju--------\n workload layer name: %s\n", layer->GetNameStr().c_str());
                 m_WorkloadQueue.push_back(move(workload));
                 // release the constant data in the layer..
                 layer->ReleaseConstantData();
@@ -153,6 +155,7 @@ LoadedNetwork::LoadedNetwork(std::unique_ptr<OptimizedNetwork> net)
             }
         }
     }
+    printf("\n\n\n\n\n\n\n\n\n\n");
 
     // Set up memory.
     m_OptimizedNetwork->GetGraph().AllocateDynamicBuffers();
@@ -341,6 +344,7 @@ Status LoadedNetwork::EnqueueWorkload(const InputTensors& inputTensors,
     for (const BindableLayer* inputLayer : graph.GetInputLayers())
     {
         const TensorPin& pin = workloadData.GetInputTensorPin(inputLayer->GetBindingId());
+        // printf("\n\n\n\n\n\n-----Renju Again-------\nInput layer name: %s\n\n\n\n", inputLayer->GetNameStr().c_str());
         EnqueueInput(*inputLayer, pin.GetTensorHandle(), pin.GetTensorInfo());
     }
 
@@ -350,6 +354,7 @@ Status LoadedNetwork::EnqueueWorkload(const InputTensors& inputTensors,
     for (const BindableLayer* outputLayer : graph.GetOutputLayers())
     {
         const TensorPin& pin = workloadData.GetOutputTensorPin(outputLayer->GetBindingId());
+        // printf("\n\n\n\n\n\n-----Renju Again-------\nOutput layer name: %s\n\n\n\n", outputLayer->GetNameStr().c_str());
         EnqueueOutput(*outputLayer, pin.GetTensorHandle(), pin.GetTensorInfo());
     }
 
@@ -533,18 +538,24 @@ bool LoadedNetwork::Execute()
         std::lock_guard<std::mutex> lockGuard(m_WorkingMemMutex);
         AllocateWorkingMemory();
 
+        int count = 0;
         for (auto& input : m_InputQueue)
         {
+            printf("\n\n\n\n-----Renju-----: input count: %d\n\n\n\n", ++count);
             input->Execute();
         }
 
+        count = 0;
         for (auto& workload : m_WorkloadQueue)
         {
+            printf("\n\n\n\n-----Renju-----: workload count: %d\n\n\n\n", ++count);
             workload->Execute();
         }
 
+        count = 0;
         for (auto& output: m_OutputQueue)
         {
+            printf("\n\n\n\n-----Renju-----: output count: %d\n\n\n\n", ++count);
             output->Execute();
         }
     }
