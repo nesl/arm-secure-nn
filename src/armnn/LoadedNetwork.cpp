@@ -147,7 +147,8 @@ LoadedNetwork::LoadedNetwork(std::unique_ptr<OptimizedNetwork> net)
                     ));
                 }
 
-                printf("Fuck my life-------Renju--------\n workload layer name: %s\n", layer->GetNameStr().c_str());
+                printf("Fuck my life-------Renju--------\n workload layer name: %s, backednID is %s\n",
+                  layer->GetName(), layer->GetBackendId().Get().c_str());
                 m_WorkloadQueue.push_back(move(workload));
                 // release the constant data in the layer..
                 layer->ReleaseConstantData();
@@ -541,21 +542,21 @@ bool LoadedNetwork::Execute()
         int count = 0;
         for (auto& input : m_InputQueue)
         {
-            printf("\n\n\n\n-----Renju-----: input count: %d\n\n\n\n", ++count);
+            // printf("\n\n\n\n-----Renju-----: input count: %d\n\n\n\n", ++count);
             input->Execute();
         }
 
         count = 0;
         for (auto& workload : m_WorkloadQueue)
         {
-            printf("\n\n\n\n-----Renju-----: workload count: %d\n\n\n\n", ++count);
+            // printf("\n\n\n\n-----Renju-----: workload count: %d\n\n\n\n", ++count);
             workload->Execute();
         }
 
         count = 0;
         for (auto& output: m_OutputQueue)
         {
-            printf("\n\n\n\n-----Renju-----: output count: %d\n\n\n\n", ++count);
+            // printf("\n\n\n\n-----Renju-----: output count: %d\n\n\n\n", ++count);
             output->Execute();
         }
     }

@@ -1703,6 +1703,7 @@ void CaffeParserBase::LoadNetParam(NetParameter& netParameter)
     // Parses each node in order, knowing that all inputs of a node will be processed before the node itself.
     for (const caffe::LayerParameter* current : sortedNodes)
     {
+        // printf("-----RENJU----Layer type: %s, layer name: %s\n", current->type().c_str(), current->name().c_str());
         auto it = ms_CaffeLayerNameToParsingFunctions.find(current->type());
         if (it == ms_CaffeLayerNameToParsingFunctions.end())
         {
@@ -1716,6 +1717,7 @@ void CaffeParserBase::LoadNetParam(NetParameter& netParameter)
         auto func = it->second;
         (this->*func)(*current);
     }
+    // printf("\n\n\n\n\n\n\n\n");
 
     // Adds ArmNN output layers connected to each requested output.
     for (const std::string& requestedOutput : m_RequestedOutputs)

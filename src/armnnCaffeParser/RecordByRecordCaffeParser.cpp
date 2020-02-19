@@ -655,6 +655,7 @@ armnn::INetworkPtr RecordByRecordCaffeParser::LoadLayers(std::ifstream& ifs,
 
     m_Network = armnn::INetwork::Create();
 
+    printf("\n\n\n\n\n\n\n\n");
     for (auto info : sortedNodes)
     {
         caffe::LayerParameter layer;
@@ -700,6 +701,7 @@ armnn::INetworkPtr RecordByRecordCaffeParser::LoadLayers(std::ifstream& ifs,
             layer.set_bottom(0, info->bottom(0));
         }
 
+        printf("-----RENJU----Layer type: %s, layer name: %s\n", layer.type().c_str(), layer.name().c_str());
         auto it = ms_CaffeLayerNameToParsingFunctions.find(layer.type());
         if (it == ms_CaffeLayerNameToParsingFunctions.end())
         {
@@ -708,6 +710,7 @@ armnn::INetworkPtr RecordByRecordCaffeParser::LoadLayers(std::ifstream& ifs,
         auto func = it->second;
         (this->*func)(layer);
     }
+    printf("\n\n\n\n\n\n\n\n");
     ifs.close();
 
     // Add ArmNN output layers connected to each requested output
@@ -727,6 +730,3 @@ armnn::INetworkPtr RecordByRecordCaffeParser::LoadLayers(std::ifstream& ifs,
 
     return move(m_Network);
 }
-
-
-
