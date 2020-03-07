@@ -16,6 +16,11 @@
 
 #include <arm_compute/runtime/CL/functions/CLConvolutionLayer.h>
 
+// arm_compute::ICLTensor input_ptr[10];
+// arm_compute::ICLTensor output_ptr[10];
+// arm_compute::TensorInfo input_info[10];
+// arm_compute::TensorInfo output_info[10];
+
 namespace armnn
 {
 using namespace armcomputetensorutils;
@@ -105,11 +110,25 @@ ClConvolution2dWorkload::ClConvolution2dWorkload(const Convolution2dQueueDescrip
     // delete all the input tensors that will no longer be needed
     m_ConvolutionLayer.prepare();
     FreeUnusedTensors();
+    printf("-----RL: Configure Convolution2dLayer now!!\n");
 }
 
 void ClConvolution2dWorkload::Execute() const
 {
+    //printf("----RL: Running ClConvolution2dWorkload now!!\n");
     ARMNN_SCOPED_PROFILING_EVENT_CL("ClConvolution2dWorkload_Execute");
+
+    auto* input_info = (m_Data.m_Inputs[0]);
+    auto* output_info = (m_Data.m_Outputs[0]);
+
+    if(!input_info) {
+        printf("RL: input info missing.\n");
+    }
+
+    if(!output_info) {
+        printf("RL: output info missing.\n");
+    }
+
     RunClFunction(m_ConvolutionLayer, CHECK_LOCATION());
 }
 

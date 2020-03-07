@@ -69,15 +69,19 @@ inline void InitializeArmComputeClTensorData(arm_compute::CLTensor& clTensor,
     switch(handle->GetTensorInfo().GetDataType())
     {
         case DataType::Float16:
+            // printf("RL: Type - Float 16");
             CopyArmComputeClTensorData(clTensor, handle->GetConstTensor<armnn::Half>());
             break;
         case DataType::Float32:
+          // printf("RL: Type - Float 32");
             CopyArmComputeClTensorData(clTensor, handle->GetConstTensor<float>());
             break;
         case DataType::QuantisedAsymm8:
+            // printf("RL: Type - QuantisedAsymm8");
             CopyArmComputeClTensorData(clTensor, handle->GetConstTensor<uint8_t>());
             break;
         case DataType::Signed32:
+            // printf("RL: Type - Signed32");
             CopyArmComputeClTensorData(clTensor, handle->GetConstTensor<int32_t>());
             break;
         default:

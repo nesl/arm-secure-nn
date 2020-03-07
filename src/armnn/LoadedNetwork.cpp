@@ -120,7 +120,6 @@ LoadedNetwork::LoadedNetwork(std::unique_ptr<OptimizedNetwork> net)
         layer->CreateTensorHandles(m_TensorHandleFactoryRegistry, workloadFacory);
     }
 
-    printf("\n\n\n\n\n\n\n\n\n\n");
     //Then create workloads.
     for (auto&& layer : order)
     {
@@ -149,6 +148,7 @@ LoadedNetwork::LoadedNetwork(std::unique_ptr<OptimizedNetwork> net)
 
                 printf("Fuck my life-------Renju--------\n workload layer name: %s, backednID is %s\n",
                   layer->GetName(), layer->GetBackendId().Get().c_str());
+                m_WorkloadLayerQueue.push_back(move(layer));
                 m_WorkloadQueue.push_back(move(workload));
                 // release the constant data in the layer..
                 layer->ReleaseConstantData();
@@ -345,7 +345,8 @@ Status LoadedNetwork::EnqueueWorkload(const InputTensors& inputTensors,
     for (const BindableLayer* inputLayer : graph.GetInputLayers())
     {
         const TensorPin& pin = workloadData.GetInputTensorPin(inputLayer->GetBindingId());
-        // printf("\n\n\n\n\n\n-----Renju Again-------\nInput layer name: %s\n\n\n\n", inputLayer->GetNameStr().c_str());
+        // printf("-----Renju Again------- Input layer name: %s\n", inputLayer->GetNameStr().c_str());
+        m_InputLayerQueue.push_back(move(inputLayer));
         EnqueueInput(*inputLayer, pin.GetTensorHandle(), pin.GetTensorInfo());
     }
 
@@ -355,7 +356,8 @@ Status LoadedNetwork::EnqueueWorkload(const InputTensors& inputTensors,
     for (const BindableLayer* outputLayer : graph.GetOutputLayers())
     {
         const TensorPin& pin = workloadData.GetOutputTensorPin(outputLayer->GetBindingId());
-        // printf("\n\n\n\n\n\n-----Renju Again-------\nOutput layer name: %s\n\n\n\n", outputLayer->GetNameStr().c_str());
+        // printf("-----Renju Again------- Output layer name: %s\n", outputLayer->GetNameStr().c_str());
+        m_OutputLayerQueue.push_back(move(outputLayer));
         EnqueueOutput(*outputLayer, pin.GetTensorHandle(), pin.GetTensorInfo());
     }
 
@@ -539,26 +541,47 @@ bool LoadedNetwork::Execute()
         std::lock_guard<std::mutex> lockGuard(m_WorkingMemMutex);
         AllocateWorkingMemory();
 
-        int count = 0;
+        size_t count = 0;
+        printf("\n");
         for (auto& input : m_InputQueue)
         {
-            // printf("\n\n\n\n-----Renju-----: input count: %d\n\n\n\n", ++count);
+            printf("RL (input): Input slot number: %u, Output slot number: %u\n",
+                m_InputLayerQueue.at(count)->GetNumInputSlots(),
+                m_InputLayerQueue.at(count)->GetNumOutputSlots());
+            // printf("-----Renju-----: input count: %d\n", ++count);
+            // printf("-----RENJU----fml: input name - %s\n", input->GetData());
+            ++count;
             input->Execute();
         }
+        printf("-----Renju-----: total input count: %d, total input: %d\n",
+              static_cast<int>(count), static_cast<int>(m_InputLayerQueue.size()));
 
         count = 0;
         for (auto& workload : m_WorkloadQueue)
         {
-            // printf("\n\n\n\n-----Renju-----: workload count: %d\n\n\n\n", ++count);
+            // printf("-----Renju-----: workload count: %d\n", ++count);
+            printf("RL (workload): Input slot number: %u Output slot number: %d\n",
+                m_WorkloadLayerQueue.at(count)->GetNumInputSlots(),
+                m_WorkloadLayerQueue.at(count)->GetNumOutputSlots());
+            ++count;
             workload->Execute();
         }
+        printf("-----Renju-----: total workload: %d, total workload size: %d\n",
+              static_cast<int>(count), static_cast<int>(m_WorkloadLayerQueue.size()));
 
         count = 0;
         for (auto& output: m_OutputQueue)
         {
-            // printf("\n\n\n\n-----Renju-----: output count: %d\n\n\n\n", ++count);
+            // printf("-----Renju-----: output count: %d\n", ++count);
+            printf("RL (output): Input slot number: %u, Output slot number: %u\n",
+                m_OutputLayerQueue.at(count)->GetNumInputSlots(),
+                m_OutputLayerQueue.at(count)->GetNumOutputSlots());
+            ++count;
             output->Execute();
         }
+        printf("-----Renju-----: total output count: %d, total output size: %d\n",
+              static_cast<int>(count), static_cast<int>(m_OutputLayerQueue.size()));
+        printf("\n");
     }
     catch (const RuntimeException& error)
     {

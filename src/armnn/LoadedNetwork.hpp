@@ -33,6 +33,9 @@ class LoadedNetwork
 {
 public:
     using WorkloadQueue = std::vector< std::unique_ptr<IWorkload> >;
+    using LayerQueue = std::vector<Layer*>;
+    using InOutLayerQueue = std::vector<const BindableLayer*>;
+
     ~LoadedNetwork(){ FreeWorkingMemory(); }
 
     TensorInfo GetInputTensorInfo(LayerBindingId layerId) const;
@@ -79,6 +82,11 @@ private:
     WorkloadQueue m_InputQueue;
     WorkloadQueue m_WorkloadQueue;
     WorkloadQueue m_OutputQueue;
+
+    InOutLayerQueue m_InputLayerQueue;
+    LayerQueue m_WorkloadLayerQueue;
+    InOutLayerQueue m_OutputLayerQueue;
+
     std::shared_ptr<Profiler> m_Profiler;
 
     mutable std::mutex m_WorkingMemMutex;
