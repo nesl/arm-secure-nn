@@ -526,6 +526,178 @@ void LoadedNetwork::FreeWorkingMemory()
     m_IsWorkingMemAllocated = false;
 }
 
+void LoadedNetwork::EncryptInput(char* image, unsigned int length, unsigned int unit_size, bool is_encrypt)
+{
+  TEEC_Result res;
+  TEEC_UUID uuid = SECDEEP_UUID;
+  uint32_t err_origin;
+
+  if (!ctx || !sess)
+  {
+    ctx = static_cast<TEEC_Context*>(malloc(sizeof(TEEC_Context)));
+    sess = static_cast<TEEC_Session*>(malloc(sizeof(TEEC_Session)));
+
+    res = TEEC_InitializeContext(NULL, ctx);
+  	if (res != TEEC_SUCCESS){
+  		printf("TEEC_InitializeContext failed with code 0x%x", res);
+      return;
+    }
+
+  	res = TEEC_OpenSession(ctx, sess, &uuid,
+  			       TEEC_LOGIN_PUBLIC, NULL, NULL, &err_origin);
+  	if (res != TEEC_SUCCESS){
+  		printf("TEEC_Opensession failed with code 0x%x origin 0x%x",
+  			res, err_origin);
+      return;
+    }
+  }
+
+  void* output = malloc(unit_size * length);
+
+  TEEC_Operation op;
+
+  memset(&op, 0, sizeof(op));
+  op.paramTypes = TEEC_PARAM_TYPES(TEEC_MEMREF_TEMP_INPUT,
+           TEEC_MEMREF_TEMP_OUTPUT,
+					 TEEC_VALUE_INOUT, TEEC_NONE);
+	op.params[0].tmpref.buffer = static_cast<void *>(image);
+  op.params[0].tmpref.size = length * unit_size;
+  op.params[1].tmpref.buffer = output;
+  op.params[1].tmpref.size = length * unit_size;
+  op.params[2].value.a = static_cast<unsigned int>(unit_size);
+
+  if(is_encrypt)
+  {
+	   res = TEEC_InvokeCommand(sess, SANITIZE_DATA, &op,
+				   &err_origin);
+  }
+  else {
+    res = TEEC_InvokeCommand(sess, DESANITIZE_DATA, &op,
+          &err_origin);
+  }
+
+  //Retry the TEE.
+  if (res == TEEC_ERROR_RESET_TEE) {
+    TEEC_CloseSession(sess);
+    TEEC_FinalizeContext(ctx);
+    res = TEEC_InitializeContext(NULL, ctx);
+  	if (res != TEEC_SUCCESS){
+      printf("TEEC_InitializeContext failed with code 0x%x", res);
+      return;
+    }
+
+  	res = TEEC_OpenSession(ctx, sess, &uuid,
+  			       TEEC_LOGIN_PUBLIC, NULL, NULL, &err_origin);
+  	if (res != TEEC_SUCCESS){
+      printf("TEEC_Opensession failed with code 0x%x origin 0x%x",
+  			res, err_origin);
+      return;
+    }
+    if(is_encrypt)
+    {
+  	   res = TEEC_InvokeCommand(sess, SANITIZE_DATA, &op,
+  				   &err_origin);
+    }
+    else {
+      res = TEEC_InvokeCommand(sess, DESANITIZE_DATA, &op,
+            &err_origin);
+    }
+  }
+
+  if (res != TEEC_SUCCESS) {
+    printf("TEEC_InvokeCommand failed with code 0x%x origin 0x%x",
+			res, err_origin);
+    return;
+  }
+
+  // memset(&op, 0, unit_size);
+  // op.paramTypes = TEEC_PARAM_TYPES(TEEC_MEMREF_TEMP_INPUT,
+  //          TEEC_MEMREF_TEMP_OUTPUT,
+	// 				 TEEC_VALUE_INOUT, TEEC_NONE);
+
+  /*
+  float test[length];
+  op.params[0].tmpref.buffer = (void *)output;
+  op.params[0].tmpref.size = length * unit_size;
+  op.params[1].tmpref.buffer = (void *)test;
+  op.params[1].tmpref.size = length * unit_size;
+  op.params[2].value.a = unit_size;
+
+  res = TEEC_InvokeCommand(&sess, DESANITIZE_DATA, &op,
+				 &err_origin);
+  if (res != TEEC_SUCCESS) {
+    printf("TEEC_InvokeCommand2 failed with code 0x%x origin 0x%x",
+      res, err_origin);
+    return;
+  }
+
+  // Validating
+  // printf("\n\n\n\nTesting the results!!!\n\n\n");
+  int accurate = 0;
+  int inaccurate = 0;
+  for(int i = 0; i < length; i++) {
+    if(test[i] - image[i] > 0.00001) {
+      printf("Yao shou la! Not accurate.\n");
+      printf("Image: %.3f, test: %.3f\n\n", image[i], test[i]);
+      ++inaccurate;
+    }
+    else ++accurate;
+  }
+*/
+  // memcpy(image, output, length * unit_size);
+}
+
+void LoadedNetwork::SecDeepInput(Layer* layer)
+{
+  unsigned int input_size = layer -> GetNumInputSlots();
+  for(unsigned int i = 0 ; i < input_size; i++) {
+    // printf("RL: SecDeepInput size - %u\n", input_size);
+    // printf("RL: SecDeepInput i - %u\n", i);
+    // Decrypt here to be further processed.
+    InputSlot* input_slot = &(layer->GetInputSlot(i));
+    OutputSlot* output_slot = input_slot->GetConnectedOutputSlot();
+    OutputHandler* output_handler = &(output_slot->GetOutputHandler());
+    TensorInfo info = output_handler -> GetTensorInfo();
+    ITensorHandle* data = output_handler -> GetData();
+
+    TensorShape shape = info.GetShape();
+    unsigned int size = shape.GetNumElements();
+    unsigned int unit_size = sizeof(float);
+
+    // printf("RL - don't crash SecDeepInput: size - %u\n", size);
+    char* memory = static_cast<char*>(malloc(size));
+    data->CopyOutTo(memory);
+    if(size % unit_size != 0) {
+      ;
+    }
+
+    EncryptInput(memory, size/unit_size, unit_size, false);
+  }
+}
+
+void LoadedNetwork::SecDeepOutput(Layer* layer)
+{
+  unsigned int output_size = layer -> GetNumOutputSlots();
+  for(unsigned int i = 0; i < output_size; i++) {
+    // Encrypt here for the next layer processing.
+    OutputSlot* output_slot = &(layer->GetOutputSlot(i));
+    OutputHandler* output_handler = &(output_slot->GetOutputHandler());
+    TensorInfo info = output_handler -> GetTensorInfo();
+    ITensorHandle* data = output_handler -> GetData();
+
+    TensorShape shape = info.GetShape();
+    unsigned int size = shape.GetNumElements();
+    unsigned int unit_size = sizeof(float);
+
+    char* memory = static_cast<char*>(malloc(size));
+    data->CopyOutTo(memory);
+    if(size % unit_size != 0) {
+      ;
+    }
+    EncryptInput(memory, size/unit_size, unit_size, true);
+  }
+}
+
 bool LoadedNetwork::Execute()
 {
     bool success = true;
@@ -542,46 +714,52 @@ bool LoadedNetwork::Execute()
         AllocateWorkingMemory();
 
         size_t count = 0;
-        printf("\n");
+        // printf("\n");
         for (auto& input : m_InputQueue)
         {
-            printf("RL (input): Input slot number: %u, Output slot number: %u\n",
-                m_InputLayerQueue.at(count)->GetNumInputSlots(),
-                m_InputLayerQueue.at(count)->GetNumOutputSlots());
+            // printf("RL (input): Input slot number: %u, Output slot number: %u\n",
+            //     m_InputLayerQueue.at(count)->GetNumInputSlots(),
+            //     m_InputLayerQueue.at(count)->GetNumOutputSlots());
             // printf("-----Renju-----: input count: %d\n", ++count);
             // printf("-----RENJU----fml: input name - %s\n", input->GetData());
-            ++count;
             input->Execute();
+            ++count;
         }
-        printf("-----Renju-----: total input count: %d, total input: %d\n",
-              static_cast<int>(count), static_cast<int>(m_InputLayerQueue.size()));
+        // printf("-----Renju-----: total input count: %d, total input: %d\n",
+        //       static_cast<int>(count), static_cast<int>(m_InputLayerQueue.size()));
 
         count = 0;
         for (auto& workload : m_WorkloadQueue)
         {
             // printf("-----Renju-----: workload count: %d\n", ++count);
-            printf("RL (workload): Input slot number: %u Output slot number: %d\n",
-                m_WorkloadLayerQueue.at(count)->GetNumInputSlots(),
-                m_WorkloadLayerQueue.at(count)->GetNumOutputSlots());
-            ++count;
+            // printf("RL (workload): Input slot number: %u Output slot number: %d\n",
+            //     m_WorkloadLayerQueue.at(count)->GetNumInputSlots(),
+            //     m_WorkloadLayerQueue.at(count)->GetNumOutputSlots());
+
+            // printf("RL (workload): Input size - %d; Output size - %d;", workload.m_Inputs.size(), workload.m_Outputs.size());
+            SecDeepInput(m_WorkloadLayerQueue.at(count));
             workload->Execute();
+            SecDeepOutput(m_WorkloadLayerQueue.at(count));
+            ++count;
         }
-        printf("-----Renju-----: total workload: %d, total workload size: %d\n",
-              static_cast<int>(count), static_cast<int>(m_WorkloadLayerQueue.size()));
+        // printf("-----Renju-----: total workload: %d, total workload size: %d\n",
+        //       static_cast<int>(count), static_cast<int>(m_WorkloadLayerQueue.size()));
 
         count = 0;
         for (auto& output: m_OutputQueue)
         {
             // printf("-----Renju-----: output count: %d\n", ++count);
-            printf("RL (output): Input slot number: %u, Output slot number: %u\n",
-                m_OutputLayerQueue.at(count)->GetNumInputSlots(),
-                m_OutputLayerQueue.at(count)->GetNumOutputSlots());
-            ++count;
+            // printf("RL (output): Input slot number: %u, Output slot number: %u\n",
+            //     m_OutputLayerQueue.at(count)->GetNumInputSlots(),
+            //     m_OutputLayerQueue.at(count)->GetNumOutputSlots());
             output->Execute();
+            ++count;
         }
-        printf("-----Renju-----: total output count: %d, total output size: %d\n",
-              static_cast<int>(count), static_cast<int>(m_OutputLayerQueue.size()));
-        printf("\n");
+        // printf("-----Renju-----: total output count: %d, total output size: %d\n",
+        //       static_cast<int>(count), static_cast<int>(m_OutputLayerQueue.size()));
+        // printf("\n");
+        if(sess) TEEC_CloseSession(sess);
+        if(ctx) TEEC_FinalizeContext(ctx);
     }
     catch (const RuntimeException& error)
     {

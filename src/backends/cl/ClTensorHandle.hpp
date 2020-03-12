@@ -85,7 +85,7 @@ public:
         return armcomputetensorutils::GetShape(m_Tensor.info()->tensor_shape());
     }
 
-private:
+// public:
     // Only used for testing
     void CopyOutTo(void* memory) const override
     {
@@ -150,6 +150,7 @@ private:
         this->Unmap();
     }
 
+private:
     arm_compute::CLTensor m_Tensor;
     std::shared_ptr<arm_compute::CLMemoryGroup> m_MemoryGroup;
 };

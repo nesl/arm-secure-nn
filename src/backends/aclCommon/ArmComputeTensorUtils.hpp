@@ -164,10 +164,12 @@ void CopyArmComputeITensorData(const arm_compute::ITensor& srcTensor, T* dstData
                     {
                         // Copies one row from arm_compute tensor buffer to linear memory buffer.
                         // A row is the largest contiguous region we can copy, as the tensor data may be using strides.
+                        if(y < 0) {
                         memcpy(
                          dstData + GetLinearBufferOffset(info, depthIndex, batchIndex, channelIndex, y, 0),
                          bufferPtr + GetTensorOffset(info, depthIndex, batchIndex, channelIndex, y, 0),
                          width * sizeof(T));
+                       }
                     }
                 }
             }

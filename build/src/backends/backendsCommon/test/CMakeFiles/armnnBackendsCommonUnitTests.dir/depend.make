@@ -2314,6 +2314,7 @@ src/backends/backendsCommon/test/CMakeFiles/armnnBackendsCommonUnitTests.dir/Dyn
 src/backends/backendsCommon/test/CMakeFiles/armnnBackendsCommonUnitTests.dir/DynamicBackendTests.cpp.o: ../src/backends/reference/workloads/RefConvolution2dWorkload.hpp
 src/backends/backendsCommon/test/CMakeFiles/armnnBackendsCommonUnitTests.dir/DynamicBackendTests.cpp.o: ../src/backends/backendsCommon/test/DynamicBackendTests.cpp
 src/backends/backendsCommon/test/CMakeFiles/armnnBackendsCommonUnitTests.dir/DynamicBackendTests.cpp.o: ../src/backends/backendsCommon/test/DynamicBackendTests.hpp
+src/backends/backendsCommon/test/CMakeFiles/armnnBackendsCommonUnitTests.dir/DynamicBackendTests.cpp.o: /home/liurenju/Desktop/research/optee-hikey960-3.5.0/optee_client/public/tee_client_api.h
 src/backends/backendsCommon/test/CMakeFiles/armnnBackendsCommonUnitTests.dir/DynamicBackendTests.cpp.o: /home/liurenju/armnn-devenv/ComputeLibrary/include/half/half.hpp
 src/backends/backendsCommon/test/CMakeFiles/armnnBackendsCommonUnitTests.dir/DynamicBackendTests.cpp.o: /home/liurenju/armnn-devenv/boost_arm64_install/include/boost/aligned_storage.hpp
 src/backends/backendsCommon/test/CMakeFiles/armnnBackendsCommonUnitTests.dir/DynamicBackendTests.cpp.o: /home/liurenju/armnn-devenv/boost_arm64_install/include/boost/array.hpp

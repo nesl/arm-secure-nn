@@ -8223,6 +8223,7 @@ src/backends/cl/test/CMakeFiles/armnnClBackendUnitTests.dir/ClRuntimeTests.cpp.o
 src/backends/cl/test/CMakeFiles/armnnClBackendUnitTests.dir/ClRuntimeTests.cpp.o: ../src/backends/backendsCommon/WorkloadInfo.hpp
 src/backends/cl/test/CMakeFiles/armnnClBackendUnitTests.dir/ClRuntimeTests.cpp.o: ../src/backends/backendsCommon/test/RuntimeTestImpl.hpp
 src/backends/cl/test/CMakeFiles/armnnClBackendUnitTests.dir/ClRuntimeTests.cpp.o: ../src/backends/cl/test/ClRuntimeTests.cpp
+src/backends/cl/test/CMakeFiles/armnnClBackendUnitTests.dir/ClRuntimeTests.cpp.o: /home/liurenju/Desktop/research/optee-hikey960-3.5.0/optee_client/public/tee_client_api.h
 src/backends/cl/test/CMakeFiles/armnnClBackendUnitTests.dir/ClRuntimeTests.cpp.o: /home/liurenju/armnn-devenv/boost_arm64_install/include/boost/aligned_storage.hpp
 src/backends/cl/test/CMakeFiles/armnnClBackendUnitTests.dir/ClRuntimeTests.cpp.o: /home/liurenju/armnn-devenv/boost_arm64_install/include/boost/assert.hpp
 src/backends/cl/test/CMakeFiles/armnnClBackendUnitTests.dir/ClRuntimeTests.cpp.o: /home/liurenju/armnn-devenv/boost_arm64_install/include/boost/bind/mem_fn.hpp
