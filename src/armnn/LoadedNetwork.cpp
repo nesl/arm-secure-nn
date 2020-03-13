@@ -146,8 +146,8 @@ LoadedNetwork::LoadedNetwork(std::unique_ptr<OptimizedNetwork> net)
                     ));
                 }
 
-                printf("Fuck my life-------Renju--------\n workload layer name: %s, backednID is %s\n",
-                  layer->GetName(), layer->GetBackendId().Get().c_str());
+                // printf("Fuck my life-------Renju--------\n workload layer name: %s, backednID is %s\n",
+                  // layer->GetName(), layer->GetBackendId().Get().c_str());
                 m_WorkloadLayerQueue.push_back(move(layer));
                 m_WorkloadQueue.push_back(move(workload));
                 // release the constant data in the layer..
@@ -156,7 +156,7 @@ LoadedNetwork::LoadedNetwork(std::unique_ptr<OptimizedNetwork> net)
             }
         }
     }
-    printf("\n\n\n\n\n\n\n\n\n\n");
+    // printf("\n\n\n\n\n\n\n\n\n\n");
 
     // Set up memory.
     m_OptimizedNetwork->GetGraph().AllocateDynamicBuffers();

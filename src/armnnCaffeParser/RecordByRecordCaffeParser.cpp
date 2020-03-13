@@ -701,7 +701,7 @@ armnn::INetworkPtr RecordByRecordCaffeParser::LoadLayers(std::ifstream& ifs,
             layer.set_bottom(0, info->bottom(0));
         }
 
-        printf("-----RENJU----Layer type: %s, layer name: %s\n", layer.type().c_str(), layer.name().c_str());
+        //printf("-----RENJU----Layer type: %s, layer name: %s\n", layer.type().c_str(), layer.name().c_str());
         auto it = ms_CaffeLayerNameToParsingFunctions.find(layer.type());
         if (it == ms_CaffeLayerNameToParsingFunctions.end())
         {

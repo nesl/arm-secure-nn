@@ -110,7 +110,7 @@ ClConvolution2dWorkload::ClConvolution2dWorkload(const Convolution2dQueueDescrip
     // delete all the input tensors that will no longer be needed
     m_ConvolutionLayer.prepare();
     FreeUnusedTensors();
-    printf("-----RL: Configure Convolution2dLayer now!!\n");
+    //printf("-----RL: Configure Convolution2dLayer now!!\n");
 }
 
 void ClConvolution2dWorkload::Execute() const
