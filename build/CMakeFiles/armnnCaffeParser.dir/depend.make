@@ -864,6 +864,7 @@ CMakeFiles/armnnCaffeParser.dir/src/armnnCaffeParser/RecordByRecordCaffeParser.c
 CMakeFiles/armnnCaffeParser.dir/src/armnnCaffeParser/RecordByRecordCaffeParser.cpp.o: ../src/armnnCaffeParser/CaffeParser.hpp
 CMakeFiles/armnnCaffeParser.dir/src/armnnCaffeParser/RecordByRecordCaffeParser.cpp.o: ../src/armnnCaffeParser/RecordByRecordCaffeParser.cpp
 CMakeFiles/armnnCaffeParser.dir/src/armnnCaffeParser/RecordByRecordCaffeParser.cpp.o: ../src/armnnCaffeParser/RecordByRecordCaffeParser.hpp
+CMakeFiles/armnnCaffeParser.dir/src/armnnCaffeParser/RecordByRecordCaffeParser.cpp.o: /home/liurenju/Desktop/research/optee-hikey960-3.5.0/optee_client/public/tee_client_api.h
 CMakeFiles/armnnCaffeParser.dir/src/armnnCaffeParser/RecordByRecordCaffeParser.cpp.o: /home/liurenju/armnn-devenv/boost_arm64_install/include/boost/assert.hpp
 CMakeFiles/armnnCaffeParser.dir/src/armnnCaffeParser/RecordByRecordCaffeParser.cpp.o: /home/liurenju/armnn-devenv/boost_arm64_install/include/boost/config.hpp
 CMakeFiles/armnnCaffeParser.dir/src/armnnCaffeParser/RecordByRecordCaffeParser.cpp.o: /home/liurenju/armnn-devenv/boost_arm64_install/include/boost/config/compiler/borland.hpp

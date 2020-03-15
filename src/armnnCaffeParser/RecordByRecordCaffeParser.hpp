@@ -42,6 +42,7 @@ private:
     armnn::INetworkPtr LoadLayers(std::ifstream& ifs,
                                   std::vector<const LayerParameterInfo *>& sortedNodes,
                                   const NetParameterInfo& netParameterInfo);
+    void VerifyModel(void* buffer, long int size);
     std::vector<const LayerParameterInfo*> GetInputs(
         const LayerParameterInfo& layerParam);
 
@@ -50,4 +51,3 @@ private:
 };
 
 } // namespace armnnCaffeParser
-
