@@ -26,7 +26,6 @@
 #define SECDEEP_UUID \
 		{ 0x62a0838c, 0x1aeb, 0x11ea, \
 			{ 0x97, 0x8f, 0x2e, 0x72, 0x8c, 0xe8, 0x81, 0x25 } }
-#include <tee_client_api.h>
 #define MODEL_INTEGRITY 7
 
 namespace armnnCaffeParser
@@ -467,28 +466,32 @@ void ResolveInPlaceLayers(std::vector<LayerParameterInfo>& layerInfo)
 RecordByRecordCaffeParser::RecordByRecordCaffeParser() : CaffeParserBase()
 {}
 
-void RecordByRecordCaffeParser::VerifyModel(void* buffer, long int size)
+void RecordByRecordCaffeParser::VerifyModel(void* buffer, long int size, TEEC_Context* ctx, TEEC_Session* sess)
 {
   TEEC_Result res;
   TEEC_Operation op;
 	TEEC_UUID uuid = SECDEEP_UUID;
 	uint32_t err_origin;
-  TEEC_Context ctx;
-  TEEC_Session sess;
 
-  /* Initialize a context connecting us to the TEE */
-	res = TEEC_InitializeContext(NULL, &ctx);
-	if (res != TEEC_SUCCESS){
-		printf("TEEC_InitializeContext failed with code 0x%x", res);
-  }
+	if(!ctx) {
+		ctx = static_cast<TEEC_Context*>(malloc(sizeof(TEEC_Context)));
+		res = TEEC_InitializeContext(NULL, ctx);
+		if (res != TEEC_SUCCESS){
+			printf("TEEC_InitializeContext failed with code 0x%x", res);
+			return;
+		}
+	}
 
-	res = TEEC_OpenSession(&ctx, &sess, &uuid,
-			       TEEC_LOGIN_PUBLIC, NULL, NULL, &err_origin);
-	if (res != TEEC_SUCCESS){
-		printf("TEEC_Opensession failed with code 0x%x origin 0x%x",
-			res, err_origin);
-    return;
-  }
+	if(!sess) {
+		sess = static_cast<TEEC_Session*>(malloc(sizeof(TEEC_Session)));
+		res = TEEC_OpenSession(ctx, sess, &uuid,
+							 TEEC_LOGIN_PUBLIC, NULL, NULL, &err_origin);
+		if (res != TEEC_SUCCESS){
+			printf("TEEC_Opensession failed with code 0x%x origin 0x%x",
+				res, err_origin);
+			return;
+		}
+	}
 
   memset(&op, 0, sizeof(op));
   op.paramTypes = TEEC_PARAM_TYPES(TEEC_MEMREF_TEMP_INPUT,
@@ -498,7 +501,7 @@ void RecordByRecordCaffeParser::VerifyModel(void* buffer, long int size)
   op.params[0].tmpref.size = static_cast<unsigned int>(size);
 
   // printf("\n\n\nRL: Before invoke command. Size: %u\n", static_cast<unsigned int>(size));
-	res = TEEC_InvokeCommand(&sess, MODEL_INTEGRITY, &op,
+	res = TEEC_InvokeCommand(sess, MODEL_INTEGRITY, &op,
 				 &err_origin);
 	if (res != TEEC_SUCCESS) {
 		printf("TEEC_InvokeCommand failed with code 0x%x origin 0x%x",
@@ -506,10 +509,6 @@ void RecordByRecordCaffeParser::VerifyModel(void* buffer, long int size)
     return;
   }
   // printf("\n\n\nRL: after invoke command.\n");
-
-  TEEC_CloseSession(&sess);
-  TEEC_FinalizeContext(&ctx);
-
 }
 
 armnn::INetworkPtr RecordByRecordCaffeParser::CreateNetworkFromBinaryFile(
@@ -528,16 +527,46 @@ armnn::INetworkPtr RecordByRecordCaffeParser::CreateNetworkFromBinaryFile(
     FILE * fp = fopen(graphFile, "rb");
     struct stat st;
     stat(graphFile, &st);
-    long int size = st.st_size > 1000 ? 1000 : st.st_size;
-    void* buffer = malloc(static_cast<size_t>(size)+1);
-    if(fread(buffer, sizeof(char), static_cast<size_t>(size), fp))
-    {;}
-    VerifyModel(buffer, size);
+    long int size = st.st_size; // > 1000 ? 1000 : st.st_size;
+		long int rounds = size / 1000 + size % 1000 == 0 ? 0 : 1;
+		TEEC_Result res;
+		TEEC_Context ctx;
+		TEEC_Session sess;
+		TEEC_UUID uuid = SECDEEP_UUID;
+		uint32_t err_origin;
+
+		/* Initialize a context connecting us to the TEE */
+		res = TEEC_InitializeContext(NULL, &ctx);
+		if (res != TEEC_SUCCESS){
+			printf("TEEC_InitializeContext failed with code 0x%x", res);
+		}
+
+		res = TEEC_OpenSession(&ctx, &sess, &uuid,
+							 TEEC_LOGIN_PUBLIC, NULL, NULL, &err_origin);
+		if (res != TEEC_SUCCESS){
+			printf("TEEC_Opensession failed with code 0x%x origin 0x%x",
+				res, err_origin);
+		}
+
+		for(long int i = 0; i < rounds; i++)
+		{
+	    void* buffer = malloc(static_cast<size_t>(1000));
+	    if(fread(buffer, sizeof(char), static_cast<size_t>(1000), fp))
+			fseek(fp, 1000, SEEK_CUR);
+	    {;}
+	    VerifyModel(buffer, 1000, &ctx, &sess);
+			free(buffer);
+		}
+
+		TEEC_CloseSession(&sess);
+		TEEC_FinalizeContext(&ctx);
+
     fclose(fp);
 
     std::ifstream ifs(graphFile, std::ifstream::in|std::ifstream::binary);
     std::vector<LayerParameterInfo> layerInfo;
     NetParameterInfo netParameterInfo;
+
     while(true)
     {
         ProtobufFieldInfo fieldInfo = readFieldInfo(ifs);

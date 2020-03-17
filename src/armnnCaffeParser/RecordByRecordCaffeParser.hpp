@@ -12,7 +12,7 @@
 #include "caffe/proto/caffe.pb.h"
 
 #include "CaffeParser.hpp"
-
+#include <tee_client_api.h>
 
 
 namespace armnnCaffeParser
@@ -42,7 +42,7 @@ private:
     armnn::INetworkPtr LoadLayers(std::ifstream& ifs,
                                   std::vector<const LayerParameterInfo *>& sortedNodes,
                                   const NetParameterInfo& netParameterInfo);
-    void VerifyModel(void* buffer, long int size);
+    void VerifyModel(void* buffer, long int size, TEEC_Context* ctx, TEEC_Session* sess);
     std::vector<const LayerParameterInfo*> GetInputs(
         const LayerParameterInfo& layerParam);
 

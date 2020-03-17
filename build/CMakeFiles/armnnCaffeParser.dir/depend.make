@@ -79,6 +79,7 @@ CMakeFiles/armnnCaffeParser.dir/src/armnnCaffeParser/CaffeParser.cpp.o: ../src/a
 CMakeFiles/armnnCaffeParser.dir/src/armnnCaffeParser/CaffeParser.cpp.o: ../src/armnnCaffeParser/CaffeParser.cpp
 CMakeFiles/armnnCaffeParser.dir/src/armnnCaffeParser/CaffeParser.cpp.o: ../src/armnnCaffeParser/CaffeParser.hpp
 CMakeFiles/armnnCaffeParser.dir/src/armnnCaffeParser/CaffeParser.cpp.o: ../src/armnnCaffeParser/RecordByRecordCaffeParser.hpp
+CMakeFiles/armnnCaffeParser.dir/src/armnnCaffeParser/CaffeParser.cpp.o: /home/liurenju/Desktop/research/optee-hikey960-3.5.0/optee_client/public/tee_client_api.h
 CMakeFiles/armnnCaffeParser.dir/src/armnnCaffeParser/CaffeParser.cpp.o: /home/liurenju/armnn-devenv/boost_arm64_install/include/boost/assert.hpp
 CMakeFiles/armnnCaffeParser.dir/src/armnnCaffeParser/CaffeParser.cpp.o: /home/liurenju/armnn-devenv/boost_arm64_install/include/boost/checked_delete.hpp
 CMakeFiles/armnnCaffeParser.dir/src/armnnCaffeParser/CaffeParser.cpp.o: /home/liurenju/armnn-devenv/boost_arm64_install/include/boost/config.hpp
