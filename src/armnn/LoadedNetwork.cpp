@@ -556,6 +556,8 @@ void LoadedNetwork::EncryptInput(char* image, unsigned int length, unsigned int 
 
   TEEC_Operation op;
 
+  // printf("RL: total size - %u\n", unit_size * length);
+
   memset(&op, 0, sizeof(op));
   op.paramTypes = TEEC_PARAM_TYPES(TEEC_MEMREF_TEMP_INPUT,
            TEEC_MEMREF_TEMP_OUTPUT,
@@ -603,6 +605,8 @@ void LoadedNetwork::EncryptInput(char* image, unsigned int length, unsigned int 
             &err_origin);
     }
   }
+
+  free(output);
 
   if (res != TEEC_SUCCESS) {
     printf("TEEC_InvokeCommand failed with code 0x%x origin 0x%x",
@@ -661,17 +665,26 @@ void LoadedNetwork::SecDeepInput(Layer* layer)
     ITensorHandle* data = output_handler -> GetData();
 
     TensorShape shape = info.GetShape();
-    unsigned int size = shape.GetNumElements();
+    unsigned int cur_size = shape.GetNumElements();
     unsigned int unit_size = sizeof(float);
 
-    // printf("RL - don't crash SecDeepInput: size - %u\n", size);
-    char* memory = static_cast<char*>(malloc(size));
+    int tmp_size = static_cast<int>(cur_size);
+    // printf("RL - don't crash SecDeepInput: size - %u\n", cur_size);
+    char* memory = static_cast<char*>(malloc(cur_size));
     data->CopyOutTo(memory);
-    if(size % unit_size != 0) {
-      ;
-    }
+    unsigned int j = 0;
 
-    EncryptInput(memory, size/unit_size, unit_size, false);
+    do {
+      unsigned int size = tmp_size > MAX_SIZE ? MAX_SIZE : static_cast<unsigned int>(tmp_size);
+
+      if(size % unit_size != 0) {
+        ;
+      }
+
+
+      EncryptInput(memory + j++ * size, size/unit_size, unit_size, false);
+      tmp_size = tmp_size - MAX_SIZE;
+    } while (tmp_size > 0);
   }
 }
 
@@ -686,15 +699,25 @@ void LoadedNetwork::SecDeepOutput(Layer* layer)
     ITensorHandle* data = output_handler -> GetData();
 
     TensorShape shape = info.GetShape();
-    unsigned int size = shape.GetNumElements();
+    unsigned int cur_size = shape.GetNumElements();
     unsigned int unit_size = sizeof(float);
 
-    char* memory = static_cast<char*>(malloc(size));
+    int tmp_size = static_cast<int>(cur_size);
+    // printf("RL - don't crash SecDeepOutput: size - %u\n", cur_size);
+    char* memory = static_cast<char*>(malloc(cur_size));
     data->CopyOutTo(memory);
-    if(size % unit_size != 0) {
-      ;
-    }
-    EncryptInput(memory, size/unit_size, unit_size, true);
+    unsigned int j = 0;
+
+    do {
+      unsigned int size = tmp_size > MAX_SIZE ? MAX_SIZE : static_cast<unsigned int>(tmp_size);
+      if(size % unit_size != 0) {
+        ;
+      }
+
+
+      EncryptInput(memory + j++ * size, size/unit_size, unit_size, true);
+      tmp_size = tmp_size - MAX_SIZE;
+    } while (tmp_size > 0);
   }
 }
 
