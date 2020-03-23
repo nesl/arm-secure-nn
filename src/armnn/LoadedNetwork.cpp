@@ -21,6 +21,7 @@
 #include <boost/assert.hpp>
 #include <boost/format.hpp>
 #include <boost/log/trivial.hpp>
+#include <sys/time.h>
 
 namespace armnn
 {
@@ -320,6 +321,8 @@ private:
 Status LoadedNetwork::EnqueueWorkload(const InputTensors& inputTensors,
                                       const OutputTensors& outputTensors)
 {
+    struct timeval enqueue_start, enqueue_end;
+    gettimeofday(&enqueue_start, NULL);
     ARMNN_SCOPED_PROFILING_EVENT(Compute::Undefined, "EnqueueWorkload");
 
     const Graph& graph = m_OptimizedNetwork->GetGraph();
@@ -366,9 +369,23 @@ Status LoadedNetwork::EnqueueWorkload(const InputTensors& inputTensors,
     {
         ARMNN_SCOPED_PROFILING_EVENT(Compute::Undefined, "Execute");
         ARMNN_SCOPED_HEAP_PROFILING("Executing");
+
         executionSucceeded = Execute();
     }
 
+
+    gettimeofday(&enqueue_end, NULL);
+
+    std::cout << "Infering model time copy data time: " <<
+      total_copy_time
+    << " ms" << std::endl;
+    std::cout << "Infering model time TrustZone time: " <<
+      total_execution_time - total_gpu_time - total_copy_time
+    << " ms" << std::endl;
+    std::cout << "Infering model time: " <<
+      (enqueue_end.tv_sec - enqueue_start.tv_sec) * 1000 +
+      (enqueue_end.tv_usec - enqueue_start.tv_usec) / 1000
+    << " ms" << std::endl;
     return executionSucceeded ? Status::Success : Status::Failure;
 }
 
@@ -570,12 +587,18 @@ void LoadedNetwork::EncryptInput(char* image, unsigned int length, unsigned int 
 
   if(is_encrypt)
   {
-	   res = TEEC_InvokeCommand(sess, SANITIZE_DATA, &op,
+    // printf("RL: encrypt size - %u, unit_size: %u\n"op.params[0].tmpref.size, op.params[2].value.a);
+	  res = TEEC_InvokeCommand(sess, SANITIZE_DATA, &op,
 				   &err_origin);
   }
   else {
+    // printf("RL: decrypt size - %u, unit_size: %u\n"op.params[0].tmpref.size, op.params[2].value.a);
     res = TEEC_InvokeCommand(sess, DESANITIZE_DATA, &op,
           &err_origin);
+  }
+
+  if(res != TEEC_SUCCESS) {
+    printf("TEEC invoke_command failed: Error - 0x%x, err_origin - %u\n", res, err_origin);
   }
 
   //Retry the TEE.
@@ -597,22 +620,20 @@ void LoadedNetwork::EncryptInput(char* image, unsigned int length, unsigned int 
     }
     if(is_encrypt)
     {
-  	   res = TEEC_InvokeCommand(sess, SANITIZE_DATA, &op,
+      res = TEEC_InvokeCommand(sess, SANITIZE_DATA, &op,
   				   &err_origin);
     }
     else {
       res = TEEC_InvokeCommand(sess, DESANITIZE_DATA, &op,
             &err_origin);
     }
+
+    if(res != TEEC_SUCCESS) {
+      printf("TEEC invoke_command failed: Error - 0x%x\n", res);
+    }
   }
 
   free(output);
-
-  if (res != TEEC_SUCCESS) {
-    printf("TEEC_InvokeCommand failed with code 0x%x origin 0x%x",
-			res, err_origin);
-    return;
-  }
 
   // memset(&op, 0, unit_size);
   // op.paramTypes = TEEC_PARAM_TYPES(TEEC_MEMREF_TEMP_INPUT,
@@ -665,26 +686,81 @@ void LoadedNetwork::SecDeepInput(Layer* layer)
     ITensorHandle* data = output_handler -> GetData();
 
     TensorShape shape = info.GetShape();
-    unsigned int cur_size = shape.GetNumElements();
+    DataType type = info.GetDataType();
+
     unsigned int unit_size = sizeof(float);
+    if(type == DataType::Float16){
+      unit_size = sizeof(short);
+    }
+    else if(type == DataType::Float32){
+      unit_size = sizeof(float);
+    }
+    else if(type == DataType::QuantisedAsymm8){
+      unit_size = sizeof(uint8_t);
+    }
+    else if(type == DataType::Signed32){
+      unit_size = sizeof(int);
+    }
+    else if(type == DataType::Boolean){
+      unit_size = sizeof(char);
+    }
+    else if(type == DataType::QuantisedSymm16){
+      unit_size = sizeof(short);
+    }
+    else {
+      printf("fuck! not supported.\n");
+    }
+    unsigned int cur_size = shape.GetNumElements() * unit_size;
+    unsigned int num_dimensions = shape.GetNumDimensions();
+
+    unsigned int batch_size = 1;
+    for(unsigned int k = 1 ; k < num_dimensions ; k++) {
+      batch_size = shape.m_Dimensions[k] * shape.m_Dimensions[k-1];
+    }
+
+    unit_size *= batch_size;
 
     int tmp_size = static_cast<int>(cur_size);
     // printf("RL - don't crash SecDeepInput: size - %u\n", cur_size);
-    char* memory = static_cast<char*>(malloc(cur_size));
-    data->CopyOutTo(memory);
+    //static_cast<char*>(malloc(cur_size));
+
+    struct timeval start, end;
+
+    gettimeofday(&start, NULL);
+    char* memory = static_cast<char*>(data->Map(true));
+    // char* memory = static_cast<char*>(malloc(cur_size));
+    // data->CopyOutTo(memory);
+    gettimeofday(&end, NULL);
+
+    total_copy_time += static_cast<unsigned int>(
+      (end.tv_sec - start.tv_sec) * 1000 +
+      (end.tv_usec - start.tv_usec) / 1000
+    );
+
     unsigned int j = 0;
 
     do {
       unsigned int size = tmp_size > MAX_SIZE ? MAX_SIZE : static_cast<unsigned int>(tmp_size);
+      //truncate it
+      if(unit_size == MAX_SIZE) unit_size = size;
+      if(unit_size > MAX_SIZE) unit_size = MAX_SIZE;
 
       if(size % unit_size != 0) {
         ;
       }
 
-
       EncryptInput(memory + j++ * size, size/unit_size, unit_size, false);
+
       tmp_size = tmp_size - MAX_SIZE;
     } while (tmp_size > 0);
+
+    gettimeofday(&start, NULL);
+    data->Unmap();
+    gettimeofday(&end, NULL);
+    total_copy_time += static_cast<unsigned int>(
+      (end.tv_sec - start.tv_sec) * 1000 +
+      (end.tv_usec - start.tv_usec) / 1000
+    );
   }
 }
 
@@ -698,33 +774,93 @@ void LoadedNetwork::SecDeepOutput(Layer* layer)
     TensorInfo info = output_handler -> GetTensorInfo();
     ITensorHandle* data = output_handler -> GetData();
 
+    // TensorShape shape = info.GetShape();
+    // unsigned int cur_size = shape.GetNumElements();
+    // unsigned int unit_size = sizeof(float);
+
     TensorShape shape = info.GetShape();
-    unsigned int cur_size = shape.GetNumElements();
+    DataType type = info.GetDataType();
+
     unsigned int unit_size = sizeof(float);
+    if(type == DataType::Float16){
+      unit_size = sizeof(short);
+    }
+    else if(type == DataType::Float32){
+      unit_size = sizeof(float);
+    }
+    else if(type == DataType::QuantisedAsymm8){
+      unit_size = sizeof(uint8_t);
+    }
+    else if(type == DataType::Signed32){
+      unit_size = sizeof(int);
+    }
+    else if(type == DataType::Boolean){
+      unit_size = sizeof(char);
+    }
+    else if(type == DataType::QuantisedSymm16){
+      unit_size = sizeof(short);
+    }
+    else {
+      printf("fuck! not supported.\n");
+    }
+    unsigned int cur_size = shape.GetNumElements() * unit_size;
+    unsigned int num_dimensions = shape.GetNumDimensions();
+
+    unsigned int batch_size = 1;
+    for(unsigned int k = 1 ; k < num_dimensions ; k++) {
+      batch_size = shape.m_Dimensions[k] * shape.m_Dimensions[k-1];
+    }
+
+    unit_size *= batch_size;
 
     int tmp_size = static_cast<int>(cur_size);
     // printf("RL - don't crash SecDeepOutput: size - %u\n", cur_size);
-    char* memory = static_cast<char*>(malloc(cur_size));
-    data->CopyOutTo(memory);
+    // char* memory = static_cast<char*>(malloc(cur_size));
+    struct timeval start, end;
+
+    gettimeofday(&start, NULL);
+    char* memory = static_cast<char*>(data->Map(true));
+    // char* memory = static_cast<char*>(malloc(cur_size));
+    gettimeofday(&end, NULL);
+
+    // data->CopyOutTo(memory);
+
+    total_copy_time += static_cast<unsigned int>(
+      (end.tv_sec - start.tv_sec) * 1000 +
+      (end.tv_usec - start.tv_usec) / 1000
+    );
+
     unsigned int j = 0;
 
     do {
       unsigned int size = tmp_size > MAX_SIZE ? MAX_SIZE : static_cast<unsigned int>(tmp_size);
+
+      //truncate it
+      if(unit_size == MAX_SIZE) unit_size = size;
+      if(unit_size > MAX_SIZE) unit_size = MAX_SIZE;
+
       if(size % unit_size != 0) {
         ;
       }
 
-
       EncryptInput(memory + j++ * size, size/unit_size, unit_size, true);
       tmp_size = tmp_size - MAX_SIZE;
     } while (tmp_size > 0);
+
+    gettimeofday(&start, NULL);
+    data->Unmap();
+    gettimeofday(&end, NULL);
+    total_copy_time += static_cast<unsigned int>(
+      (end.tv_sec - start.tv_sec) * 1000 +
+      (end.tv_usec - start.tv_usec) / 1000
+    );
   }
 }
 
 bool LoadedNetwork::Execute()
 {
     bool success = true;
-
+    struct timeval exe_start, exe_end;
     auto Fail = [&](const std::exception& error)
     {
         BOOST_LOG_TRIVIAL(error) << "An error occurred attempting to execute a workload: " << error.what();
@@ -737,6 +873,7 @@ bool LoadedNetwork::Execute()
         AllocateWorkingMemory();
 
         size_t count = 0;
+        struct timeval gpu_start, gpu_end;
         // printf("\n");
         for (auto& input : m_InputQueue)
         {
@@ -760,9 +897,35 @@ bool LoadedNetwork::Execute()
             //     m_WorkloadLayerQueue.at(count)->GetNumOutputSlots());
 
             // printf("RL (workload): Input size - %d; Output size - %d;", workload.m_Inputs.size(), workload.m_Outputs.size());
+            // printf("RL: Before input;\n");
+
+            gettimeofday(&exe_start, NULL);
             SecDeepInput(m_WorkloadLayerQueue.at(count));
+            gettimeofday(&exe_end, NULL);
+
+            total_execution_time += static_cast<unsigned int>(
+              (exe_end.tv_sec - exe_start.tv_sec) * 1000 +
+              (exe_end.tv_usec - exe_start.tv_usec) / 1000
+            );
+
+            // printf("RL: after input;\n");
+            gettimeofday(&gpu_start, NULL);
             workload->Execute();
+            gettimeofday(&gpu_end, NULL);
+            total_gpu_time += static_cast<unsigned int>(
+              (gpu_end.tv_sec - gpu_start.tv_sec) * 1000 +
+              (gpu_end.tv_usec - gpu_start.tv_usec) / 1000
+            );
+            // printf("RL: Before output;\n");
+            gettimeofday(&exe_start, NULL);
             SecDeepOutput(m_WorkloadLayerQueue.at(count));
+            gettimeofday(&exe_end, NULL);
+
+            total_execution_time += static_cast<unsigned int>(
+              (exe_end.tv_sec - exe_start.tv_sec) * 1000 +
+              (exe_end.tv_usec - exe_start.tv_usec) / 1000
+            );
+            // printf("RL: after output;\n");
             ++count;
         }
         // printf("-----Renju-----: total workload: %d, total workload size: %d\n",
@@ -781,6 +944,7 @@ bool LoadedNetwork::Execute()
         // printf("-----Renju-----: total output count: %d, total output size: %d\n",
         //       static_cast<int>(count), static_cast<int>(m_OutputLayerQueue.size()));
         // printf("\n");
+
         if(sess) TEEC_CloseSession(sess);
         if(ctx) TEEC_FinalizeContext(ctx);
     }

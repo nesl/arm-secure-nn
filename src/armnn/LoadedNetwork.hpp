@@ -116,6 +116,9 @@ private:
 		TEEC_Context* ctx = NULL;
 		TEEC_Session* sess = NULL;
     TensorHandleFactoryRegistry m_TensorHandleFactoryRegistry;
+		unsigned int total_copy_time = 0;
+		unsigned int total_execution_time = 0;
+		unsigned int total_gpu_time = 0;
 };
 
 }
