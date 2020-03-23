@@ -380,7 +380,7 @@ Status LoadedNetwork::EnqueueWorkload(const InputTensors& inputTensors,
       total_copy_time
     << " ms" << std::endl;
     std::cout << "Infering model time TrustZone time: " <<
-      total_execution_time - total_gpu_time - total_copy_time
+      total_execution_time
     << " ms" << std::endl;
     std::cout << "Infering model time: " <<
       (enqueue_end.tv_sec - enqueue_start.tv_sec) * 1000 +
@@ -722,14 +722,14 @@ void LoadedNetwork::SecDeepInput(Layer* layer)
 
     int tmp_size = static_cast<int>(cur_size);
     // printf("RL - don't crash SecDeepInput: size - %u\n", cur_size);
-    //static_cast<char*>(malloc(cur_size));
 
     struct timeval start, end;
 
     gettimeofday(&start, NULL);
-    char* memory = static_cast<char*>(data->Map(true));
-    // char* memory = static_cast<char*>(malloc(cur_size));
-    // data->CopyOutTo(memory);
+    // char* memory = static_cast<char*>(data->Map(false));
+    char* memory = static_cast<char*>(malloc(cur_size));
+    memcpy(memory, data, sizeof(*data));
+
     gettimeofday(&end, NULL);
 
     total_copy_time += static_cast<unsigned int>(
@@ -755,7 +755,7 @@ void LoadedNetwork::SecDeepInput(Layer* layer)
     } while (tmp_size > 0);
 
     gettimeofday(&start, NULL);
-    data->Unmap();
+    // data->Unmap();
     gettimeofday(&end, NULL);
     total_copy_time += static_cast<unsigned int>(
       (end.tv_sec - start.tv_sec) * 1000 +
@@ -819,11 +819,10 @@ void LoadedNetwork::SecDeepOutput(Layer* layer)
     struct timeval start, end;
 
     gettimeofday(&start, NULL);
-    char* memory = static_cast<char*>(data->Map(true));
-    // char* memory = static_cast<char*>(malloc(cur_size));
+    // char* memory = static_cast<char*>(data->Map(false));
+    char* memory = static_cast<char*>(malloc(cur_size));
+    memcpy(memory, data, sizeof(*data));
     gettimeofday(&end, NULL);
-
-    // data->CopyOutTo(memory);
 
     total_copy_time += static_cast<unsigned int>(
       (end.tv_sec - start.tv_sec) * 1000 +
@@ -848,7 +847,7 @@ void LoadedNetwork::SecDeepOutput(Layer* layer)
     } while (tmp_size > 0);
 
     gettimeofday(&start, NULL);
-    data->Unmap();
+    // data->Unmap();
     gettimeofday(&end, NULL);
     total_copy_time += static_cast<unsigned int>(
       (end.tv_sec - start.tv_sec) * 1000 +
