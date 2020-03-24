@@ -321,8 +321,8 @@ private:
 Status LoadedNetwork::EnqueueWorkload(const InputTensors& inputTensors,
                                       const OutputTensors& outputTensors)
 {
-    struct timeval enqueue_start, enqueue_end;
-    gettimeofday(&enqueue_start, NULL);
+    struct timespec enqueue_start, enqueue_end;
+    clock_gettime(CLOCK_MONOTONIC, &enqueue_start);
     ARMNN_SCOPED_PROFILING_EVENT(Compute::Undefined, "EnqueueWorkload");
 
     const Graph& graph = m_OptimizedNetwork->GetGraph();
@@ -374,7 +374,7 @@ Status LoadedNetwork::EnqueueWorkload(const InputTensors& inputTensors,
     }
 
 
-    gettimeofday(&enqueue_end, NULL);
+    clock_gettime(CLOCK_MONOTONIC, &enqueue_end);
 
     std::cout << "Infering model time copy data time: " <<
       total_copy_time
@@ -384,7 +384,7 @@ Status LoadedNetwork::EnqueueWorkload(const InputTensors& inputTensors,
     << " ms" << std::endl;
     std::cout << "Infering model time: " <<
       (enqueue_end.tv_sec - enqueue_start.tv_sec) * 1000 +
-      (enqueue_end.tv_usec - enqueue_start.tv_usec) / 1000
+      (enqueue_end.tv_nsec - enqueue_start.tv_nsec) / 1000000
     << " ms" << std::endl;
     return executionSucceeded ? Status::Success : Status::Failure;
 }
@@ -723,18 +723,17 @@ void LoadedNetwork::SecDeepInput(Layer* layer)
     int tmp_size = static_cast<int>(cur_size);
     // printf("RL - don't crash SecDeepInput: size - %u\n", cur_size);
 
-    struct timeval start, end;
+    struct timespec start, end;
 
-    gettimeofday(&start, NULL);
-    // char* memory = static_cast<char*>(data->Map(false));
+    clock_gettime(CLOCK_MONOTONIC, &start);
     char* memory = static_cast<char*>(malloc(cur_size));
     memcpy(memory, data, sizeof(*data));
 
-    gettimeofday(&end, NULL);
+    clock_gettime(CLOCK_MONOTONIC, &end);
 
     total_copy_time += static_cast<unsigned int>(
       (end.tv_sec - start.tv_sec) * 1000 +
-      (end.tv_usec - start.tv_usec) / 1000
+      (end.tv_nsec - start.tv_nsec) / 1000000
     );
 
     unsigned int j = 0;
@@ -754,12 +753,12 @@ void LoadedNetwork::SecDeepInput(Layer* layer)
       tmp_size = tmp_size - MAX_SIZE;
     } while (tmp_size > 0);
 
-    gettimeofday(&start, NULL);
+    clock_gettime(CLOCK_MONOTONIC, &start);
     // data->Unmap();
-    gettimeofday(&end, NULL);
+    clock_gettime(CLOCK_MONOTONIC, &end);
     total_copy_time += static_cast<unsigned int>(
       (end.tv_sec - start.tv_sec) * 1000 +
-      (end.tv_usec - start.tv_usec) / 1000
+      (end.tv_nsec - start.tv_nsec) / 1000000
     );
   }
 }
@@ -816,17 +815,16 @@ void LoadedNetwork::SecDeepOutput(Layer* layer)
     int tmp_size = static_cast<int>(cur_size);
     // printf("RL - don't crash SecDeepOutput: size - %u\n", cur_size);
     // char* memory = static_cast<char*>(malloc(cur_size));
-    struct timeval start, end;
+    struct timespec start, end;
 
-    gettimeofday(&start, NULL);
-    // char* memory = static_cast<char*>(data->Map(false));
+    clock_gettime(CLOCK_MONOTONIC, &start);
     char* memory = static_cast<char*>(malloc(cur_size));
     memcpy(memory, data, sizeof(*data));
-    gettimeofday(&end, NULL);
+    clock_gettime(CLOCK_MONOTONIC, &end);
 
     total_copy_time += static_cast<unsigned int>(
       (end.tv_sec - start.tv_sec) * 1000 +
-      (end.tv_usec - start.tv_usec) / 1000
+      (end.tv_nsec - start.tv_nsec) / 1000000
     );
 
     unsigned int j = 0;
@@ -846,12 +844,12 @@ void LoadedNetwork::SecDeepOutput(Layer* layer)
       tmp_size = tmp_size - MAX_SIZE;
     } while (tmp_size > 0);
 
-    gettimeofday(&start, NULL);
+    clock_gettime(CLOCK_MONOTONIC, &start);
     // data->Unmap();
-    gettimeofday(&end, NULL);
+    clock_gettime(CLOCK_MONOTONIC, &end);
     total_copy_time += static_cast<unsigned int>(
       (end.tv_sec - start.tv_sec) * 1000 +
-      (end.tv_usec - start.tv_usec) / 1000
+      (end.tv_nsec - start.tv_nsec) / 1000000
     );
   }
 }
@@ -859,7 +857,7 @@ void LoadedNetwork::SecDeepOutput(Layer* layer)
 bool LoadedNetwork::Execute()
 {
     bool success = true;
-    struct timeval exe_start, exe_end;
+    struct timespec exe_start, exe_end;
     auto Fail = [&](const std::exception& error)
     {
         BOOST_LOG_TRIVIAL(error) << "An error occurred attempting to execute a workload: " << error.what();
@@ -872,7 +870,7 @@ bool LoadedNetwork::Execute()
         AllocateWorkingMemory();
 
         size_t count = 0;
-        struct timeval gpu_start, gpu_end;
+        struct timespec gpu_start, gpu_end;
         // printf("\n");
         for (auto& input : m_InputQueue)
         {
@@ -898,31 +896,31 @@ bool LoadedNetwork::Execute()
             // printf("RL (workload): Input size - %d; Output size - %d;", workload.m_Inputs.size(), workload.m_Outputs.size());
             // printf("RL: Before input;\n");
 
-            gettimeofday(&exe_start, NULL);
+            clock_gettime(CLOCK_MONOTONIC, &exe_start);
             SecDeepInput(m_WorkloadLayerQueue.at(count));
-            gettimeofday(&exe_end, NULL);
+            clock_gettime(CLOCK_MONOTONIC, &exe_end);
 
             total_execution_time += static_cast<unsigned int>(
               (exe_end.tv_sec - exe_start.tv_sec) * 1000 +
-              (exe_end.tv_usec - exe_start.tv_usec) / 1000
+              (exe_end.tv_nsec - exe_start.tv_nsec) / 1000000
             );
 
             // printf("RL: after input;\n");
-            gettimeofday(&gpu_start, NULL);
+            clock_gettime(CLOCK_MONOTONIC, &gpu_start);
             workload->Execute();
-            gettimeofday(&gpu_end, NULL);
+            clock_gettime(CLOCK_MONOTONIC, &gpu_end);
             total_gpu_time += static_cast<unsigned int>(
               (gpu_end.tv_sec - gpu_start.tv_sec) * 1000 +
-              (gpu_end.tv_usec - gpu_start.tv_usec) / 1000
+              (gpu_end.tv_nsec - gpu_start.tv_nsec) / 1000000
             );
             // printf("RL: Before output;\n");
-            gettimeofday(&exe_start, NULL);
+            clock_gettime(CLOCK_MONOTONIC, &exe_start);
             SecDeepOutput(m_WorkloadLayerQueue.at(count));
-            gettimeofday(&exe_end, NULL);
+            clock_gettime(CLOCK_MONOTONIC, &exe_end);
 
             total_execution_time += static_cast<unsigned int>(
               (exe_end.tv_sec - exe_start.tv_sec) * 1000 +
-              (exe_end.tv_usec - exe_start.tv_usec) / 1000
+              (exe_end.tv_nsec - exe_start.tv_nsec) / 1000000
             );
             // printf("RL: after output;\n");
             ++count;
