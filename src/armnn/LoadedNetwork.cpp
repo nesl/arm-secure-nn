@@ -22,6 +22,8 @@
 #include <boost/format.hpp>
 #include <boost/log/trivial.hpp>
 #include <sys/time.h>
+#include <fstream>
+#include <iostream>
 
 namespace armnn
 {
@@ -376,16 +378,17 @@ Status LoadedNetwork::EnqueueWorkload(const InputTensors& inputTensors,
 
     clock_gettime(CLOCK_MONOTONIC, &enqueue_end);
 
-    std::cout << "Infering model time copy data time: " <<
-      total_copy_time
-    << " ms" << std::endl;
-    std::cout << "Infering model time TrustZone time: " <<
+    std::ofstream myfile ("output.txt");
+
+    myfile << "Infering model time TrustZone time(ms):\t" <<
       total_execution_time
-    << " ms" << std::endl;
-    std::cout << "Infering model time: " <<
+    << "\n";
+    myfile << "Infering model time(ms):\t" <<
       (enqueue_end.tv_sec - enqueue_start.tv_sec) * 1000 +
       (enqueue_end.tv_nsec - enqueue_start.tv_nsec) / 1000000
-    << " ms" << std::endl;
+    << "\n";
+
+    myfile.close();
     return executionSucceeded ? Status::Success : Status::Failure;
 }
 
