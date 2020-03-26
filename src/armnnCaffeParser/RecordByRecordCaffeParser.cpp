@@ -528,7 +528,7 @@ armnn::INetworkPtr RecordByRecordCaffeParser::CreateNetworkFromBinaryFile(
     struct stat st;
     stat(graphFile, &st);
     long int size = st.st_size; // > 1000 ? 1000 : st.st_size;
-		long int rounds = size / 1000 + size % 1000 == 0 ? 0 : 1;
+		long int rounds = size / 10000 + (size % 10000 == 0 ? 0 : 1);
 		TEEC_Result res;
 		TEEC_Context ctx;
 		TEEC_Session sess;
@@ -550,11 +550,11 @@ armnn::INetworkPtr RecordByRecordCaffeParser::CreateNetworkFromBinaryFile(
 
 		for(long int i = 0; i < rounds; i++)
 		{
-	    void* buffer = malloc(static_cast<size_t>(1000));
-	    if(fread(buffer, sizeof(char), static_cast<size_t>(1000), fp))
-			fseek(fp, 1000, SEEK_CUR);
+	    void* buffer = malloc(static_cast<size_t>(10000));
+	    if(fread(buffer, sizeof(char), static_cast<size_t>(10000), fp))
+			fseek(fp, 10000, SEEK_CUR);
 	    {;}
-	    VerifyModel(buffer, 1000, &ctx, &sess);
+	    VerifyModel(buffer, 10000, &ctx, &sess);
 			free(buffer);
 		}
 

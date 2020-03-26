@@ -1794,7 +1794,6 @@ INetworkPtr CaffeParser::CreateNetworkFromBinaryFile(const char* graphFile,
     const std::vector<std::string>& requestedOutputs)
 {
     FILE* fd = fopen(graphFile, "rb");
-
     if (fd == nullptr)
     {
         throw FileNotFoundException(
