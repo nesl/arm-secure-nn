@@ -149,7 +149,7 @@ LoadedNetwork::LoadedNetwork(std::unique_ptr<OptimizedNetwork> net)
                     ));
                 }
 
-                // printf("Fuck my life-------Renju--------\n workload layer name: %s, backednID is %s\n",
+                // printf("-------Renju--------\n workload layer name: %s, backednID is %s\n",
                   // layer->GetName(), layer->GetBackendId().Get().c_str());
                 m_WorkloadLayerQueue.push_back(move(layer));
                 m_WorkloadQueue.push_back(move(workload));
@@ -711,7 +711,7 @@ void LoadedNetwork::SecDeepInput(Layer* layer)
       unit_size = sizeof(short);
     }
     else {
-      printf("fuck! not supported.\n");
+      printf("Oh no! not supported.\n");
     }
     unsigned int cur_size = shape.GetNumElements() * unit_size;
     unsigned int num_dimensions = shape.GetNumDimensions();
@@ -803,7 +803,7 @@ void LoadedNetwork::SecDeepOutput(Layer* layer)
       unit_size = sizeof(short);
     }
     else {
-      printf("fuck! not supported.\n");
+      printf("Oh no! not supported.\n");
     }
     unsigned int cur_size = shape.GetNumElements() * unit_size;
     unsigned int num_dimensions = shape.GetNumDimensions();
